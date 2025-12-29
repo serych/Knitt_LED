@@ -18,6 +18,11 @@ bool wifiConnectSTA(const WifiCreds& c, uint32_t timeoutMs) {
   return false;
 }
 
+void wifiStopPortal(DNSServer& dns) {
+  dns.stop();
+  WiFi.softAPdisconnect(true);
+}
+
 static String esc(const String& s) {
   String out;
   out.reserve(s.length());
@@ -34,10 +39,14 @@ static String esc(const String& s) {
   return out;
 }
 
-void wifiStartPortal(WebServer& server, DNSServer& dns, const char* apSsid,
-                     WifiCreds& creds,
-                     void (*onCredsSaved)(const WifiCreds&),
-                     void (*onConnected)(const IPAddress&)) {
+void wifiStartPortal(
+  WebServer& server,
+  DNSServer& dns,
+  const char* apSsid,
+  WifiCreds& creds,
+  std::function<void(const WifiCreds&)> onCredsSaved,
+  std::function<void(const IPAddress&)> onConnected
+) {
   WiFi.mode(WIFI_AP_STA);
   WiFi.softAP(apSsid);
   delay(200);
@@ -59,7 +68,9 @@ void wifiStartPortal(WebServer& server, DNSServer& dns, const char* apSsid,
     html += "<div class='card small'>Connect to AP <b>KnittLED</b>, choose Wi-Fi, enter password.</div>";
     html += "<div class='card'><form method='POST' action='/save'>";
     html += "<label>SSID</label><select name='ssid' required><option value=''>-- Select --</option>";
-    for (int i=0;i<n;i++) html += "<option value='" + esc(WiFi.SSID(i)) + "'>" + esc(WiFi.SSID(i)) + "</option>";
+    for (int i = 0; i < n; i++) {
+      html += "<option value='" + esc(WiFi.SSID(i)) + "'>" + esc(WiFi.SSID(i)) + "</option>";
+    }
     html += "</select>";
     html += "<label>Password</label><input name='pass' type='password' placeholder='(optional for open)'>";
     html += "<button type='submit'>Save & Connect</button></form></div></body></html>";
@@ -67,8 +78,10 @@ void wifiStartPortal(WebServer& server, DNSServer& dns, const char* apSsid,
   });
 
   server.on("/save", HTTP_POST, [&]() {
-    creds.ssid = server.arg("ssid"); creds.ssid.trim();
+    creds.ssid = server.arg("ssid");
+    creds.ssid.trim();
     creds.pass = server.arg("pass");
+
     onCredsSaved(creds);
 
     bool ok = wifiConnectSTA(creds, 15000);
@@ -82,12 +95,12 @@ void wifiStartPortal(WebServer& server, DNSServer& dns, const char* apSsid,
     }
   });
 
-  // captive portal helpers
-  server.on("/generate_204", HTTP_GET, [&](){ server.sendHeader("Location","/"); server.send(302); });
-  server.on("/hotspot-detect.html", HTTP_GET, [&](){ server.sendHeader("Location","/"); server.send(302); });
-  server.on("/fwlink", HTTP_GET, [&](){ server.sendHeader("Location","/"); server.send(302); });
+  // Captive portal helpers
+  server.on("/generate_204", HTTP_GET, [&]() { server.sendHeader("Location", "/"); server.send(302); });
+  server.on("/hotspot-detect.html", HTTP_GET, [&]() { server.sendHeader("Location", "/"); server.send(302); });
+  server.on("/fwlink", HTTP_GET, [&]() { server.sendHeader("Location", "/"); server.send(302); });
 
-  server.onNotFound([&](){ server.sendHeader("Location","/"); server.send(302); });
+  server.onNotFound([&]() { server.sendHeader("Location", "/"); server.send(302); });
 
   server.begin();
 }
