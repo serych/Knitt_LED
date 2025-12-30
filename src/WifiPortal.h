@@ -1,9 +1,20 @@
+/**
+ * @file WifiPortal.h
+ * @brief Wi-Fi provisioning portal (fallback AP + captive DNS).
+ *
+ * If STA connection fails, the device starts an AP (SSID KnittLED) and serves a simple setup page.
+ * After successful connection, the app reboots into STA mode for a clean server state.
+ */
+
 #pragma once
 #include <Arduino.h>
 #include <WebServer.h>
 #include <DNSServer.h>
 #include <functional>
 
+/**
+ * @brief Stored Wi-Fi credentials.
+ */
 struct WifiCreds {
   String ssid;
   String pass;

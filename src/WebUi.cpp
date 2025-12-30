@@ -1,3 +1,11 @@
+/**
+ * @file WebUi.cpp
+ * @brief Web UI implementation (HTML + REST endpoints).
+ *
+ * This file is intentionally self-contained: it embeds the HTML/JS UI and registers WebServer routes.
+ * Doxygen comments for public APIs are in WebUi.h; this file documents key internal helpers and endpoints.
+ */
+
 // WebUi.cpp - full current version
 // Provides:
 // - Main web page (edit + knit) with canvas grid

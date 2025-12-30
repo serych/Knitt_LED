@@ -1,9 +1,20 @@
+/**
+ * @file LedView.h
+ * @brief NeoPixel row renderer for the current knitting row.
+ *
+ * Maps pattern columns to LEDs so that LED0 is the rightmost needle (#1).
+ * Only pixels set to 1 are illuminated.
+ */
+
 #pragma once
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "Pattern.h"
 #include "AppConfig.h"
 
+/**
+ * @brief NeoPixel strip renderer for a single pattern row.
+ */
 class LedView {
 public:
   LedView(uint16_t ledCount, int pin, neoPixelType type)

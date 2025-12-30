@@ -1,7 +1,18 @@
+/**
+ * @file OledView.h
+ * @brief OLED UI rendering (status/IP/row counters).
+ *
+ * Uses U8g2 fonts suited for 128x32 OLED.
+ * Keeps rendering small and fast for ESP32.
+ */
+
 #pragma once
 #include <Arduino.h>
 #include <U8g2lib.h>
 
+/**
+ * @brief Simple OLED view for KnittLED.
+ */
 class OledView {
 public:
   explicit OledView(U8G2& d) : _d(d) {}

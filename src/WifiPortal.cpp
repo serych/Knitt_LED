@@ -1,3 +1,11 @@
+/**
+ * @file WifiPortal.cpp
+ * @brief Implementation of Wi-Fi provisioning portal.
+ *
+ * Uses WebServer + DNSServer to behave as a captive portal.
+ * Network scanning is performed on demand when the portal root page is requested.
+ */
+
 #include "WifiPortal.h"
 #include <WiFi.h>
 

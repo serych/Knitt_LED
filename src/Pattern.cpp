@@ -1,3 +1,11 @@
+/**
+ * @file Pattern.cpp
+ * @brief Implementation of Pattern JSON serialization/parsing.
+ *
+ * Parsing is intentionally lightweight to keep dependencies small.
+ * If you later add ArduinoJson, this module can be simplified.
+ */
+
 #include "Pattern.h"
 
 static String esc(const String& s) {
