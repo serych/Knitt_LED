@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['pass_0',['pass',['../d7/db4/struct_wifi_creds.html#a45c0d084393dbcd2edbcbf3d293e2704',1,'WifiCreds']]],
+  ['pattern_1',['Pattern',['../d3/d04/struct_pattern.html',1,'']]],
+  ['pattern_2',['pattern',['../d9/de9/md_docs_2api.html#autotoc_md16',1,'&lt;span class=&quot;tt&quot;&gt;POST /api/pattern&lt;/span&gt;'],['../dd/d9c/struct_web_ui_deps.html#ae7e3fdf28a3679af1243ba4085e7b9a1',1,'WebUiDeps::pattern'],['../df/d0a/main_8cpp.html#a395469fc571541a1454451e2b4e2d916',1,'pattern:&#160;main.cpp']]],
+  ['pattern_20file_3',['&lt;span class=&quot;tt&quot;&gt;GET /api/pattern?file=&amp;lt;path&amp;gt;&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md15',1,'']]],
+  ['pattern_20file_20format_4',['Pattern file format',['../index.html#autotoc_md3',1,'']]],
+  ['pattern_2ecpp_5',['Pattern.cpp',['../de/db6/_pattern_8cpp.html',1,'']]],
+  ['pattern_2eh_6',['Pattern.h',['../d9/dbb/_pattern_8h.html',1,'']]],
+  ['patterns_7',['Files and patterns',['../d9/de9/md_docs_2api.html#autotoc_md13',1,'']]],
+  ['patterntojson_8',['patternToJson',['../de/db6/_pattern_8cpp.html#ab1f172d4bc2776b5b29091cf39a6e61a',1,'patternToJson(const Pattern &amp;p):&#160;Pattern.cpp'],['../d9/dbb/_pattern_8h.html#ae63ac278a74b8c813ff59ca8a64538d5',1,'patternToJson(const Pattern &amp;p):&#160;Pattern.cpp']]],
+  ['persistence_9',['Persistence',['../d2/d64/md_docs_2architecture.html#autotoc_md35',1,'']]],
+  ['platformio_10',['Build &amp;amp; upload (PlatformIO)',['../index.html#autotoc_md4',1,'']]],
+  ['points_11',['Extension points',['../d2/d64/md_docs_2architecture.html#autotoc_md36',1,'']]],
+  ['post_20api_20config_12',['&lt;span class=&quot;tt&quot;&gt;POST /api/config&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md25',1,'']]],
+  ['post_20api_20confirm_13',['&lt;span class=&quot;tt&quot;&gt;POST /api/confirm&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md21',1,'']]],
+  ['post_20api_20delete_14',['&lt;span class=&quot;tt&quot;&gt;POST /api/delete&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md17',1,'']]],
+  ['post_20api_20pattern_15',['&lt;span class=&quot;tt&quot;&gt;POST /api/pattern&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md16',1,'']]],
+  ['post_20api_20row_16',['&lt;span class=&quot;tt&quot;&gt;POST /api/row&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md20',1,'']]],
+  ['post_20upload_17',['&lt;span class=&quot;tt&quot;&gt;POST /upload&lt;/span&gt;',['../d9/de9/md_docs_2api.html#autotoc_md27',1,'']]],
+  ['prefs_18',['prefs',['../df/d0a/main_8cpp.html#a77f70a9d88156f5f7dbdd99bfaaee64e',1,'main.cpp']]],
+  ['pressed_19',['pressed',['../d0/dd9/class_edge_button.html#ab787105c74459d094967d963477c24f1',1,'EdgeButton']]],
+  ['provisioning_20',['Wi‑Fi provisioning',['../index.html#autotoc_md5',1,'']]],
+  ['px_21',['px',['../d3/d04/struct_pattern.html#a0ff8adc9825fc4bc15145e6584c98a7b',1,'Pattern']]]
+];

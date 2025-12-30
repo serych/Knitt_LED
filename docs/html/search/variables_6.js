@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['totalpulses_0',['totalPulses',['../struct_app_config.html#a7abcff53e324b6440b048644476332a3',1,'AppConfig']]]
+  ['name_0',['name',['../d3/d04/struct_pattern.html#afb12359b28227969149b6b8e313eaa40',1,'Pattern']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Knitt_LED: Main Page</title>
+<title>KnittLED: KnittLED (ESP32)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,8 +26,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Knitt_LED<span id="projectnumber">&#160;ver. 1</span>
+   <div id="projectname">KnittLED
    </div>
+   <div id="projectbrief">ESP32 knitting machine helper (NeoPixels + OLED + Web UI)</div>
   </td>
  </tr>
  </tbody>
@@ -87,10 +88,88 @@ $(function(){initNavTree('index.html','',''); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">Knitt_LED Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">KnittLED (ESP32) </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Documentation</h1>
+<ul>
+<li>Architecture: <a class="el" href="df/d97/architecture_8md.html">docs/architecture.md</a></li>
+<li>Web API: <a class="el" href="d8/dc9/api_8md.html">docs/api.md</a> KnittLED is an ESP32-based helper for hobby knitting machines. <br  />
+ It hosts a small web UI to edit 1‑bit knitting patterns and displays the active pattern row on a NeoPixel LED strip. A 128×32 OLED shows the current row and the total number of carriage sensor pulses.</li>
+</ul>
+<p><img src="misc/screenshot.PNG" alt="KnittLED UI screenshot" class="inline"/></p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+Features</h1>
+<ul>
+<li><b>Web UI</b><ul>
+<li><a class="el" href="d3/d04/struct_pattern.html" title="Knitting pattern grid.">Pattern</a> editor (grid up to 12×24)</li>
+<li>Knitting mode with active-row highlight</li>
+<li>File management in LittleFS: create / load / save / delete / upload / download</li>
+<li>Configuration: LED colors, brightness, auto‑advance, warning blink, row counting direction</li>
+</ul>
+</li>
+<li><b>Hardware</b><ul>
+<li>NeoPixel strip: <b>LED0 is the rightmost needle</b> (needle #1)</li>
+<li>OLED: shows <span class="tt">Row:xx/yy</span> and <span class="tt">Tot:n</span></li>
+<li>Buttons: UP / DOWN / CONFIRM</li>
+<li>Carriage sensor: acts as UP; optional warning blink if row not confirmed</li>
+</ul>
+</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Pattern file format</h1>
+<p>There is no universal “standard” file format for knitting punch‑card style patterns used across all hobby systems. This project uses a small <b>project-specific JSON</b> file stored in LittleFS:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;name&quot;: &quot;diamond&quot;,</div>
+<div class="line">  &quot;w&quot;: 12,</div>
+<div class="line">  &quot;h&quot;: 24,</div>
+<div class="line">  &quot;pixels&quot;: [</div>
+<div class="line">    &quot;000001110000&quot;,</div>
+<div class="line">    &quot;000011111000&quot;</div>
+<div class="line">  ]</div>
+<div class="line">}</div>
+</div><!-- fragment --><ul>
+<li><span class="tt">w</span> in 1..12</li>
+<li><span class="tt">h</span> in 1..24</li>
+<li><span class="tt">pixels</span> is an array of strings, each string is exactly <span class="tt">w</span> chars of <span class="tt">0</span>/<span class="tt">1</span>.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Build &amp; upload (PlatformIO)</h1>
+<ol type="1">
+<li>Open the project in VS Code with PlatformIO installed.</li>
+<li>Build / Upload as usual.</li>
+<li>LittleFS is formatted on first boot if needed (see <span class="tt">LittleFS.begin(true)</span> in <span class="tt"><a class="el" href="df/d0a/main_8cpp.html" title="KnittLED application entry point.">main.cpp</a></span>).</li>
+</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Wi‑Fi provisioning</h1>
+<ul>
+<li>Device first tries to connect using stored STA credentials.</li>
+<li>If it fails, it starts an AP: <b><span class="tt">KnittLED</span></b></li>
+<li>Connect to it, open captive portal, select your Wi‑Fi and enter password.</li>
+<li>After success it shows the IP on OLED and reboots into STA mode.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Doxygen documentation</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Generate docs</h2>
+<p>Install Doxygen, then from the project root:</p>
+<div class="fragment"><div class="line">doxygen Doxyfile</div>
+</div><!-- fragment --><p>Output HTML will be in <span class="tt">docs/html</span>.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+What is documented</h2>
+<ul>
+<li>Module overview and architecture</li>
+<li>Public APIs of each module</li>
+<li>Web API endpoints and their behavior</li>
+<li>Data models and persistence</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+License</h1>
+<p>GNU GPL v3 </p>
+</div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -79,4 +79,4 @@ Output HTML will be in `docs/html`.
 
 ## License
 
-Private / hobby project — add a license if you plan to publish.
+GNU GPL v3

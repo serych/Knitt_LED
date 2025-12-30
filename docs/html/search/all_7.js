@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['oledview_0',['OledView',['../class_oled_view.html',1,'']]],
-  ['oledview_2eh_1',['OledView.h',['../_oled_view_8h.html',1,'']]]
+  ['h_0',['h',['../d3/d04/struct_pattern.html#a168f6ac4b8eb8a58701b4b4076057df9',1,'Pattern']]]
 ];

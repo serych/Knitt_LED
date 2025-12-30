@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pattern_0',['pattern',['../struct_web_ui_deps.html#ae7e3fdf28a3679af1243ba4085e7b9a1',1,'WebUiDeps']]]
+  ['dns_0',['dns',['../df/d0a/main_8cpp.html#a0fc192fea6e455adf73f7e0312973d46',1,'main.cpp']]]
 ];
