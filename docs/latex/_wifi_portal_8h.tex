@@ -1,0 +1,69 @@
+\doxysection{src/\+Wifi\+Portal.h File Reference}
+\hypertarget{_wifi_portal_8h}{}\label{_wifi_portal_8h}\index{src/WifiPortal.h@{src/WifiPortal.h}}
+
+
+Wi-\/\+Fi provisioning portal (fallback AP + captive DNS).  
+
+
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include $<$Web\+Server.\+h$>$}\newline
+{\ttfamily \#include $<$DNSServer.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}}
+\begin{DoxyCompactList}\small\item\em Stored Wi-\/\+Fi credentials. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{_wifi_portal_8h_a3b402b0b4899a2ee0065995d5129a840}{wifi\+Connect\+STA}} (const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&c, uint32\+\_\+t timeout\+Ms)
+\item 
+void \mbox{\hyperlink{_wifi_portal_8h_a9e2a76f08a7125600f384876ebd7244e}{wifi\+Start\+Portal}} (Web\+Server \&server, DNSServer \&dns, const char \texorpdfstring{$\ast$}{*}ap\+Ssid, \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&creds, std\+::function$<$ void(const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&)$>$ on\+Creds\+Saved, std\+::function$<$ void(const IPAddress \&)$>$ on\+Connected)
+\item 
+void \mbox{\hyperlink{_wifi_portal_8h_ae0ad348b6d1ce4db070af7fa54bdef81}{wifi\+Stop\+Portal}} (DNSServer \&dns)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Wi-\/\+Fi provisioning portal (fallback AP + captive DNS). 
+
+If STA connection fails, the device starts an AP (SSID Knitt\+LED) and serves a simple setup page. After successful connection, the app reboots into STA mode for a clean server state. 
+
+Definition in file \mbox{\hyperlink{_wifi_portal_8h_source}{Wifi\+Portal.\+h}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{_wifi_portal_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_wifi_portal_8h_a3b402b0b4899a2ee0065995d5129a840}\index{WifiPortal.h@{WifiPortal.h}!wifiConnectSTA@{wifiConnectSTA}}
+\index{wifiConnectSTA@{wifiConnectSTA}!WifiPortal.h@{WifiPortal.h}}
+\doxysubsubsection{\texorpdfstring{wifiConnectSTA()}{wifiConnectSTA()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8h_a3b402b0b4899a2ee0065995d5129a840} 
+bool wifi\+Connect\+STA (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&}]{c}{, }\item[{uint32\+\_\+t}]{timeout\+Ms}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00014}{14}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+
+\Hypertarget{_wifi_portal_8h_a9e2a76f08a7125600f384876ebd7244e}\index{WifiPortal.h@{WifiPortal.h}!wifiStartPortal@{wifiStartPortal}}
+\index{wifiStartPortal@{wifiStartPortal}!WifiPortal.h@{WifiPortal.h}}
+\doxysubsubsection{\texorpdfstring{wifiStartPortal()}{wifiStartPortal()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8h_a9e2a76f08a7125600f384876ebd7244e} 
+void wifi\+Start\+Portal (\begin{DoxyParamCaption}\item[{Web\+Server \&}]{server}{, }\item[{DNSServer \&}]{dns}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{ap\+Ssid}{, }\item[{\mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&}]{creds}{, }\item[{std\+::function$<$ void(const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&)$>$}]{on\+Creds\+Saved}{, }\item[{std\+::function$<$ void(const IPAddress \&)$>$}]{on\+Connected}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00050}{50}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+
+\Hypertarget{_wifi_portal_8h_ae0ad348b6d1ce4db070af7fa54bdef81}\index{WifiPortal.h@{WifiPortal.h}!wifiStopPortal@{wifiStopPortal}}
+\index{wifiStopPortal@{wifiStopPortal}!WifiPortal.h@{WifiPortal.h}}
+\doxysubsubsection{\texorpdfstring{wifiStopPortal()}{wifiStopPortal()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8h_ae0ad348b6d1ce4db070af7fa54bdef81} 
+void wifi\+Stop\+Portal (\begin{DoxyParamCaption}\item[{DNSServer \&}]{dns}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00029}{29}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+

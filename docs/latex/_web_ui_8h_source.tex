@@ -1,0 +1,30 @@
+\doxysection{Web\+Ui.\+h}
+\hypertarget{_web_ui_8h_source}{}\label{_web_ui_8h_source}\index{src/WebUi.h@{src/WebUi.h}}
+\mbox{\hyperlink{_web_ui_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00014}00014\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <WebServer.h>}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <LittleFS.h>}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pattern_8h}{Pattern.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_app_config_8h}{AppConfig.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00029}\mbox{\hyperlink{struct_web_ui_deps}{00029}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_web_ui_deps}{WebUiDeps}}\ \{}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00030}\mbox{\hyperlink{struct_web_ui_deps_a415a2ac2690889ee88270bbd136c6b6d}{00030}}\ \ \ WebServer*\ \mbox{\hyperlink{struct_web_ui_deps_a415a2ac2690889ee88270bbd136c6b6d}{server}};\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00031}\mbox{\hyperlink{struct_web_ui_deps_ae7e3fdf28a3679af1243ba4085e7b9a1}{00031}}\ \ \ \mbox{\hyperlink{struct_pattern}{Pattern}}*\ \mbox{\hyperlink{struct_web_ui_deps_ae7e3fdf28a3679af1243ba4085e7b9a1}{pattern}};\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00032}\mbox{\hyperlink{struct_web_ui_deps_ad4e2fe6378a996f60737e09cb47faffd}{00032}}\ \ \ \mbox{\hyperlink{struct_app_config}{AppConfig}}*\ \mbox{\hyperlink{struct_web_ui_deps_ad4e2fe6378a996f60737e09cb47faffd}{cfg}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00033}\mbox{\hyperlink{struct_web_ui_deps_a6d24e6082e920ea3a4deb87ac9fc91fd}{00033}}\ \ \ \textcolor{keywordtype}{bool}*\ \mbox{\hyperlink{struct_web_ui_deps_a6d24e6082e920ea3a4deb87ac9fc91fd}{rowConfirmed}};\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00034}00034\ \};}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00053}00053\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_web_ui_8h_acf4a4f866256c227b8c5f99446faed6c}{webuiBegin}}(\mbox{\hyperlink{struct_web_ui_deps}{WebUiDeps}}\ deps);}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00056}00056\ String\ \mbox{\hyperlink{_web_ui_8h_a226e967c7bb5c864be0cfcac52bd0e4c}{listPatternFilesJson}}();}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00064}00064\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_web_ui_8h_a804945cbd643a87781e7737511709cb3}{loadPatternFile}}(\textcolor{keyword}{const}\ String\&\ path,\ \mbox{\hyperlink{struct_pattern}{Pattern}}\&\ p);}
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_web_ui_8h_source_l00072}00072\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_web_ui_8h_ac6418737eb1008213b0ed5749dde8893}{savePatternFile}}(\textcolor{keyword}{const}\ String\&\ path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_pattern}{Pattern}}\&\ p);}
+
+\end{DoxyCode}

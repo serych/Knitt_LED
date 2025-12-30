@@ -1,0 +1,64 @@
+\doxysection{src/\+Pattern.cpp File Reference}
+\hypertarget{_pattern_8cpp}{}\label{_pattern_8cpp}\index{src/Pattern.cpp@{src/Pattern.cpp}}
+
+
+Implementation of \doxylink{struct_pattern}{Pattern} JSON serialization/parsing.  
+
+
+{\ttfamily \#include "{}Pattern.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{_pattern_8cpp_ab1f172d4bc2776b5b29091cf39a6e61a}{pattern\+To\+Json}} (const \mbox{\hyperlink{struct_pattern}{Pattern}} \&p)
+\begin{DoxyCompactList}\small\item\em Serialize pattern to JSON string. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_pattern_8cpp_abecc86278c2907b563bb9106980786f4}{json\+To\+Pattern}} (const String \&json, \mbox{\hyperlink{struct_pattern}{Pattern}} \&out)
+\begin{DoxyCompactList}\small\item\em Parse pattern JSON into {\ttfamily out}.~\newline
+ \texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of \doxylink{struct_pattern}{Pattern} JSON serialization/parsing. 
+
+Parsing is intentionally lightweight to keep dependencies small. If you later add Arduino\+Json, this module can be simplified. 
+
+Definition in file \mbox{\hyperlink{_pattern_8cpp_source}{Pattern.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{_pattern_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_pattern_8cpp_abecc86278c2907b563bb9106980786f4}\index{Pattern.cpp@{Pattern.cpp}!jsonToPattern@{jsonToPattern}}
+\index{jsonToPattern@{jsonToPattern}!Pattern.cpp@{Pattern.cpp}}
+\doxysubsubsection{\texorpdfstring{jsonToPattern()}{jsonToPattern()}}
+{\footnotesize\ttfamily \label{_pattern_8cpp_abecc86278c2907b563bb9106980786f4} 
+bool json\+To\+Pattern (\begin{DoxyParamCaption}\item[{const String \&}]{json}{, }\item[{\mbox{\hyperlink{struct_pattern}{Pattern}} \&}]{out}{}\end{DoxyParamCaption})}
+
+
+
+Parse pattern JSON into {\ttfamily out}.~\newline
+ \texorpdfstring{$\ast$}{*}. 
+
+~\newline
+ \texorpdfstring{$\ast$}{*} \begin{DoxyReturn}{Returns}
+true on success, false if JSON is invalid or out of bounds.~\newline
+ 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_pattern_8cpp_source_l00045}{45}} of file \mbox{\hyperlink{_pattern_8cpp_source}{Pattern.\+cpp}}.
+
+\Hypertarget{_pattern_8cpp_ab1f172d4bc2776b5b29091cf39a6e61a}\index{Pattern.cpp@{Pattern.cpp}!patternToJson@{patternToJson}}
+\index{patternToJson@{patternToJson}!Pattern.cpp@{Pattern.cpp}}
+\doxysubsubsection{\texorpdfstring{patternToJson()}{patternToJson()}}
+{\footnotesize\ttfamily \label{_pattern_8cpp_ab1f172d4bc2776b5b29091cf39a6e61a} 
+String pattern\+To\+Json (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_pattern}{Pattern}} \&}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Serialize pattern to JSON string. 
+
+
+
+Definition at line \mbox{\hyperlink{_pattern_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{_pattern_8cpp_source}{Pattern.\+cpp}}.
+

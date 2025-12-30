@@ -1,0 +1,345 @@
+\doxysection{main.\+cpp}
+\hypertarget{main_8cpp_source}{}\label{main_8cpp_source}\index{src/main.cpp@{src/main.cpp}}
+\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <WiFi.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <WebServer.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <DNSServer.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <Preferences.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <LittleFS.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <Wire.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <U8g2lib.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00019}00019\ \textcolor{comment}{//\ Project\ modules}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_app_config_8h}{AppConfig.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pattern_8h}{Pattern.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_led_view_8h}{LedView.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_oled_view_8h}{OledView.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_buttons_8h}{Buttons.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_web_ui_8h}{WebUi.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_wifi_portal_8h}{WifiPortal.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ PIN\ DEFINITIONS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032\ \textcolor{comment}{//\ You\ can\ change\ these\ later}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_SDA\ =\ 21;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_SCL\ =\ 22;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00036}00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_BTN\_UP\ \ \ \ \ \ \ \ \ \ =\ 32;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00037}00037\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_BTN\_DOWN\ \ \ \ \ \ \ \ =\ 33;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}00038\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_BTN\_CONFIRM\ \ \ \ \ =\ 25;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_SENSOR\_CARRIAGE\ =\ 26;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ PIN\_NEOPIXEL\ =\ 27;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ LED\_COUNT\ \ \ \ =\ 12;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ neoPixelType\ LED\_TYPE\ =\ NEO\_GRB\ +\ NEO\_KHZ800;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ GLOBALS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050\ WebServer\ server(80);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051\ DNSServer\ dns;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052\ Preferences\ prefs;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ portalActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056\ \textcolor{comment}{//\ OLED}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00057}00057\ U8G2\_SSD1306\_128X32\_UNIVISION\_F\_HW\_I2C\ u8g2(U8G2\_R0,\ U8X8\_PIN\_NONE);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00058}00058\ \mbox{\hyperlink{class_oled_view}{OledView}}\ oled(u8g2);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00060}00060\ \textcolor{comment}{//\ LEDs}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00061}00061\ \mbox{\hyperlink{class_led_view}{LedView}}\ leds(LED\_COUNT,\ PIN\_NEOPIXEL,\ LED\_TYPE);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00063}00063\ \textcolor{comment}{//\ Buttons}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00064}00064\ \mbox{\hyperlink{class_edge_button}{EdgeButton}}\ btnUp(60);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00065}00065\ \mbox{\hyperlink{class_edge_button}{EdgeButton}}\ btnDown(60);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00066}00066\ \mbox{\hyperlink{class_edge_button}{EdgeButton}}\ btnConfirm(60);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00067}00067\ \mbox{\hyperlink{class_edge_button}{EdgeButton}}\ btnCarriage(40);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00069}00069\ \textcolor{comment}{//\ App\ state}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00070}00070\ \mbox{\hyperlink{struct_app_config}{AppConfig}}\ cfg;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00071}00071\ \mbox{\hyperlink{struct_pattern}{Pattern}}\ pattern;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00072}00072\ \textcolor{keywordtype}{bool}\ rowConfirmed[MAX\_H]\ =\ \{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00074}00074\ \textcolor{comment}{//\ WiFi}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00075}00075\ \mbox{\hyperlink{struct_wifi_creds}{WifiCreds}}\ wifiCreds;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00077}00077\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00078}00078\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ FORWARD\ DECLARATIONS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00079}00079\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00081}00081\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{main_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}{loadConfig}}(\mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00082}00082\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{main_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{saveConfig}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00084}00084\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00085}00085\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ UTILITY\ FUNCTIONS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00086}00086\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00088}00088\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ loadWifiCreds()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00089}00089\ \ \ prefs.begin(\textcolor{stringliteral}{"{}knittled"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00090}00090\ \ \ wifiCreds.ssid\ =\ prefs.getString(\textcolor{stringliteral}{"{}ssid"{}},\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00091}00091\ \ \ wifiCreds.pass\ =\ prefs.getString(\textcolor{stringliteral}{"{}pass"{}},\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00092}00092\ \ \ prefs.end();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00093}00093\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00095}00095\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ saveWifiCreds(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_wifi_creds}{WifiCreds}}\&\ c)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00096}00096\ \ \ prefs.begin(\textcolor{stringliteral}{"{}knittled"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00097}00097\ \ \ prefs.putString(\textcolor{stringliteral}{"{}ssid"{}},\ c.ssid);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00098}00098\ \ \ prefs.putString(\textcolor{stringliteral}{"{}pass"{}},\ c.pass);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00099}00099\ \ \ prefs.end();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00102}00102\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ensureFS()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00103}00103\ \ \ \textcolor{keywordflow}{if}\ (!LittleFS.begin(\textcolor{keyword}{true}))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00104}00104\ \ \ \ \ Serial.println(\textcolor{stringliteral}{"{}LittleFS\ mount\ failed"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00105}00105\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00106}00106\ \ \ \textcolor{keywordflow}{if}\ (!LittleFS.exists(\textcolor{stringliteral}{"{}/patterns"{}}))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00107}00107\ \ \ \ \ LittleFS.mkdir(\textcolor{stringliteral}{"{}/patterns"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00108}00108\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00109}00109\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00111}00111\ \textcolor{comment}{//\ Wrap\ row\ index\ 0..h-\/1}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00112}00112\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ wrapRow(\textcolor{keywordtype}{int}\ r)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00113}00113\ \ \ \textcolor{keywordflow}{if}\ (pattern.h\ <=\ 0)\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00114}00114\ \ \ \textcolor{keywordflow}{while}\ (r\ <\ 0)\ r\ +=\ pattern.h;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00115}00115\ \ \ \textcolor{keywordflow}{while}\ (r\ >=\ pattern.h)\ r\ -\/=\ pattern.h;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00116}00116\ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00117}00117\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00119}00119\ \textcolor{comment}{//\ Map\ "{}step\ +1/-\/1"{}\ to\ internal\ row\ index\ change\ based\ on\ direction}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00120}00120\ \textcolor{comment}{//\ rowFromBottom=false:\ +1\ means\ go\ down\ (row\ index\ +1)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00121}00121\ \textcolor{comment}{//\ rowFromBottom=true:\ \ +1\ means\ go\ up\ in\ index\ (row\ index\ -\/1)\ because\ counting\ starts\ from\ bottom}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00122}00122\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ stepRow(\textcolor{keywordtype}{int}\ step)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00123}00123\ \ \ cfg.warnBlinkActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00125}00125\ \ \ \textcolor{keywordtype}{int}\ dir\ =\ cfg.rowFromBottom\ ?\ -\/1\ :\ +1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00126}00126\ \ \ cfg.activeRow\ =\ wrapRow(cfg.activeRow\ +\ step\ *\ dir);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00128}00128\ \ \ \mbox{\hyperlink{main_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{saveConfig}}(cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00129}00129\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00131}00131\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ shownRowNumber1based()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00132}00132\ \ \ \textcolor{comment}{//\ OLED/web\ should\ show\ "{}Row\ 1"{}\ at\ the\ "{}start"{}\ according\ to\ direction}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00133}00133\ \ \ \textcolor{comment}{//\ activeRow\ is\ internal\ index\ where\ 0\ is\ top.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00134}00134\ \ \ \textcolor{keywordflow}{return}\ cfg.rowFromBottom\ ?\ (pattern.h\ -\/\ cfg.activeRow)\ :\ (cfg.activeRow\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00135}00135\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00137}00137\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ refreshOutputs()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00138}00138\ \ \ \textcolor{comment}{//\ OLED}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00139}00139\ \ \ oled.showKnitStatus(shownRowNumber1based(),\ pattern.h,\ cfg.totalPulses);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00141}00141\ \ \ \textcolor{comment}{//\ LEDs\ (active\ row)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00142}00142\ \ \ leds.showRow(pattern,\ cfg.activeRow,\ rowConfirmed[cfg.activeRow],\ cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00143}00143\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00145}00145\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00146}00146\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ KNITTING\ ACTIONS\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00147}00147\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00149}00149\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ doConfirm()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00150}00150\ \ \ rowConfirmed[cfg.activeRow]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00151}00151\ \ \ cfg.warnBlinkActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00153}00153\ \ \ \textcolor{keywordflow}{if}\ (cfg.autoAdvance)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00154}00154\ \ \ \ \ stepRow(+1);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ wraps\ +\ respects\ direction}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00155}00155\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00156}00156\ \ \ \ \ \mbox{\hyperlink{main_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{saveConfig}}(cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00157}00157\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00159}00159\ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00160}00160\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00162}00162\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ onCarriagePulse()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00163}00163\ \ \ cfg.totalPulses++;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00165}00165\ \ \ \textcolor{comment}{//\ Blink\ warning\ if\ carriage\ moved\ but\ current\ row\ not\ confirmed}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00166}00166\ \ \ \textcolor{keywordflow}{if}\ (cfg.blinkWarning\ \&\&\ !rowConfirmed[cfg.activeRow])\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00167}00167\ \ \ \ \ cfg.warnBlinkActive\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00168}00168\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00170}00170\ \ \ stepRow(+1);\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ carriage\ acts\ like\ "{}UP"{}\ (next\ row\ in\ chosen\ direction)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00171}00171\ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00172}00172\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00174}00174\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00175}00175\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ MAIN\ WEB\ SERVER\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00176}00176\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00178}00178\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ startMainServer()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00179}00179\ \ \ \mbox{\hyperlink{struct_web_ui_deps}{WebUiDeps}}\ deps;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00180}00180\ \ \ deps.\mbox{\hyperlink{struct_web_ui_deps_a415a2ac2690889ee88270bbd136c6b6d}{server}}\ =\ \&server;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00181}00181\ \ \ deps.\mbox{\hyperlink{struct_web_ui_deps_ae7e3fdf28a3679af1243ba4085e7b9a1}{pattern}}\ =\ \&pattern;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00182}00182\ \ \ deps.\mbox{\hyperlink{struct_web_ui_deps_ad4e2fe6378a996f60737e09cb47faffd}{cfg}}\ =\ \&cfg;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00183}00183\ \ \ deps.\mbox{\hyperlink{struct_web_ui_deps_a6d24e6082e920ea3a4deb87ac9fc91fd}{rowConfirmed}}\ =\ rowConfirmed;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00185}00185\ \ \ \mbox{\hyperlink{_web_ui_8cpp_acf4a4f866256c227b8c5f99446faed6c}{webuiBegin}}(deps);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00186}00186\ \ \ server.begin();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00187}00187\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00189}00189\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00190}00190\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ SETUP\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00191}00191\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00193}00193\ \textcolor{keywordtype}{void}\ setup()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00194}00194\ \ \ Serial.begin(115200);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00196}00196\ \ \ \textcolor{comment}{//\ OLED}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00197}00197\ \ \ Wire.begin(PIN\_SDA,\ PIN\_SCL);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00198}00198\ \ \ oled.begin();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00200}00200\ \ \ \textcolor{comment}{//\ File\ system}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00201}00201\ \ \ ensureFS();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00203}00203\ \ \ \textcolor{comment}{//\ Load\ config\ and\ WiFi\ credentials}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00204}00204\ \ \ \mbox{\hyperlink{main_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}{loadConfig}}(cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00205}00205\ \ \ loadWifiCreds();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00207}00207\ \ \ \textcolor{comment}{//\ Load\ or\ create\ default\ pattern}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00208}00208\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{_web_ui_8cpp_a73e6adfdfdcf122b608153c4425ed417}{loadPatternFile}}(cfg.currentPatternFile,\ pattern))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00209}00209\ \ \ \ \ pattern.name\ =\ \textcolor{stringliteral}{"{}default"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00210}00210\ \ \ \ \ pattern.w\ =\ 12;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00211}00211\ \ \ \ \ pattern.h\ =\ 24;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00212}00212\ \ \ \ \ \mbox{\hyperlink{_web_ui_8cpp_afda58792d07b9312d7cf0973aa48cf90}{savePatternFile}}(\textcolor{stringliteral}{"{}/patterns/default.json"{}},\ pattern);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00213}00213\ \ \ \ \ cfg.currentPatternFile\ =\ \textcolor{stringliteral}{"{}/patterns/default.json"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00214}00214\ \ \ \ \ \mbox{\hyperlink{main_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{saveConfig}}(cfg);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00215}00215\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00217}00217\ \ \ cfg.activeRow\ =\ wrapRow(cfg.activeRow);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00219}00219\ \ \ \textcolor{comment}{//\ LEDs}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00220}00220\ \ \ leds.begin(cfg.brightness);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00222}00222\ \ \ \textcolor{comment}{//\ Buttons}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00223}00223\ \ \ btnUp.begin(PIN\_BTN\_UP,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00224}00224\ \ \ btnDown.begin(PIN\_BTN\_DOWN,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00225}00225\ \ \ btnConfirm.begin(PIN\_BTN\_CONFIRM,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00226}00226\ \ \ btnCarriage.begin(PIN\_SENSOR\_CARRIAGE,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00228}00228\ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/\ Try\ STA\ WiFi\ first\ -\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00229}00229\ \ \ \textcolor{keywordflow}{if}\ (!wifiCreds.ssid.isEmpty()\ \&\&\ wifiConnectSTA(wifiCreds,\ 12000))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00230}00230\ \ \ \ \ oled.showIp(WiFi.localIP().toString());}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00231}00231\ \ \ \ \ startMainServer();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00232}00232\ \ \ \ \ delay(350);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00233}00233\ \ \ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00235}00235\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00237}00237\ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/\ Fallback\ provisioning\ portal\ -\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00238}00238\ \ \ portalActive\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00239}00239\ \ \ oled.showIp(\textcolor{stringliteral}{"{}AP:\ KnittLED"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00241}00241\ \ \ wifiStartPortal(}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00242}00242\ \ \ \ \ server,}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00243}00243\ \ \ \ \ dns,}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00244}00244\ \ \ \ \ \textcolor{stringliteral}{"{}KnittLED"{}},}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00245}00245\ \ \ \ \ wifiCreds,}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00246}00246\ \ \ \ \ [](\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_wifi_creds}{WifiCreds}}\&\ c)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00247}00247\ \ \ \ \ \ \ saveWifiCreds(c);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00248}00248\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00249}00249\ \ \ \ \ [\&](\textcolor{keyword}{const}\ IPAddress\&\ ip)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00250}00250\ \ \ \ \ \ \ portalActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00252}00252\ \ \ \ \ \ \ oled.showIp(ip.toString());}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00254}00254\ \ \ \ \ \ \ wifiStopPortal(dns);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00255}00255\ \ \ \ \ \ \ server.stop();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00257}00257\ \ \ \ \ \ \ delay(800);\ \ \ \ \ \textcolor{comment}{//\ show\ IP\ briefly}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00258}00258\ \ \ \ \ \ \ ESP.restart();\ \ \textcolor{comment}{//\ reboot\ to\ clean\ STA\ mode}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00259}00259\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00260}00260\ \ \ );}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00261}00261\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00263}00263\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00264}00264\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ LOOP\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00265}00265\ \textcolor{comment}{//\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00267}00267\ \textcolor{keywordtype}{void}\ loop()\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00268}00268\ \ \ server.handleClient();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00269}00269\ \ \ \textcolor{keywordflow}{if}\ (portalActive)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00270}00270\ \ \ \ \ dns.processNextRequest();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00271}00271\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00273}00273\ \ \ \textcolor{comment}{//\ Hardware\ controls\ active\ only\ when\ connected}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00274}00274\ \ \ \textcolor{keywordflow}{if}\ (WiFi.status()\ ==\ WL\_CONNECTED)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{keywordflow}{if}\ (btnUp.pressed())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00276}00276\ \ \ \ \ \ \ stepRow(+1);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00277}00277\ \ \ \ \ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00278}00278\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{keywordflow}{if}\ (btnDown.pressed())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00280}00280\ \ \ \ \ \ \ stepRow(-\/1);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00281}00281\ \ \ \ \ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00282}00282\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{keywordflow}{if}\ (btnConfirm.pressed())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00284}00284\ \ \ \ \ \ \ doConfirm();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00285}00285\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00286}00286\ \ \ \ \ \textcolor{keywordflow}{if}\ (btnCarriage.pressed())\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00287}00287\ \ \ \ \ \ \ onCarriagePulse();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00288}00288\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00289}00289\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00291}00291\ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/\ Detect\ changes\ made\ by\ Web\ UI\ and\ refresh\ outputs\ -\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00292}00292\ \ \ \textcolor{comment}{//\ Web\ UI\ updates\ cfg.activeRow\ via\ /api/row\ and\ changes\ cfg\ via\ /api/config.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00293}00293\ \ \ \textcolor{comment}{//\ This\ observer\ makes\ OLED\ +\ LEDs\ follow\ those\ changes.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00294}00294\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ lastRow\ =\ -\/999;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00295}00295\ \ \ \textcolor{keyword}{static}\ uint32\_t\ lastTot\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00296}00296\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ lastWarn\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00297}00297\ \ \ \textcolor{keyword}{static}\ uint8\_t\ lastBright\ =\ 255;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00298}00298\ \ \ \textcolor{keyword}{static}\ uint32\_t\ lastCA\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00299}00299\ \ \ \textcolor{keyword}{static}\ uint32\_t\ lastCC\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00300}00300\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ lastRB\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00301}00301\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ lastH\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00302}00302\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ lastW\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00304}00304\ \ \ \textcolor{keywordtype}{bool}\ changed\ =}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00305}00305\ \ \ \ \ (cfg.activeRow\ !=\ lastRow)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00306}00306\ \ \ \ \ (cfg.totalPulses\ !=\ lastTot)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00307}00307\ \ \ \ \ (cfg.warnBlinkActive\ !=\ lastWarn)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00308}00308\ \ \ \ \ (cfg.brightness\ !=\ lastBright)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00309}00309\ \ \ \ \ (cfg.colorActive\ !=\ lastCA)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00310}00310\ \ \ \ \ (cfg.colorConfirmed\ !=\ lastCC)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00311}00311\ \ \ \ \ (cfg.rowFromBottom\ !=\ lastRB)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00312}00312\ \ \ \ \ (pattern.h\ !=\ lastH)\ ||}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00313}00313\ \ \ \ \ (pattern.w\ !=\ lastW);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00315}00315\ \ \ \textcolor{keywordflow}{if}\ (changed)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00316}00316\ \ \ \ \ \textcolor{comment}{//\ Apply\ brightness\ change\ immediately}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00317}00317\ \ \ \ \ leds.setBrightness(cfg.brightness);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00319}00319\ \ \ \ \ refreshOutputs();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00321}00321\ \ \ \ \ lastRow\ =\ cfg.activeRow;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00322}00322\ \ \ \ \ lastTot\ =\ cfg.totalPulses;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00323}00323\ \ \ \ \ lastWarn\ =\ cfg.warnBlinkActive;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00324}00324\ \ \ \ \ lastBright\ =\ cfg.brightness;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00325}00325\ \ \ \ \ lastCA\ =\ cfg.colorActive;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00326}00326\ \ \ \ \ lastCC\ =\ cfg.colorConfirmed;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00327}00327\ \ \ \ \ lastRB\ =\ cfg.rowFromBottom;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00328}00328\ \ \ \ \ lastH\ =\ pattern.h;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00329}00329\ \ \ \ \ lastW\ =\ pattern.w;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00330}00330\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00332}00332\ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/\ Blink\ warning\ handling\ -\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00333}00333\ \ \ \textcolor{keyword}{static}\ uint32\_t\ lastBlinkMs\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00334}00334\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ blinkOn\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00336}00336\ \ \ \textcolor{keywordflow}{if}\ (cfg.warnBlinkActive\ \&\&\ cfg.blinkWarning)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00337}00337\ \ \ \ \ uint32\_t\ now\ =\ millis();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00338}00338\ \ \ \ \ \textcolor{keywordflow}{if}\ (now\ -\/\ lastBlinkMs\ >\ 300)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00339}00339\ \ \ \ \ \ \ lastBlinkMs\ =\ now;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00340}00340\ \ \ \ \ \ \ blinkOn\ =\ !blinkOn;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00341}00341\ \ \ \ \ \ \ leds.blinkRow(pattern,\ cfg.activeRow,\ rowConfirmed[cfg.activeRow],\ cfg,\ blinkOn);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00342}00342\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00343}00343\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00345}00345\ \ \ delay(5);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00346}00346\ \}}
+
+\end{DoxyCode}

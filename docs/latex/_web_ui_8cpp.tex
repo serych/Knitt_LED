@@ -1,0 +1,141 @@
+\doxysection{src/\+Web\+Ui.cpp File Reference}
+\hypertarget{_web_ui_8cpp}{}\label{_web_ui_8cpp}\index{src/WebUi.cpp@{src/WebUi.cpp}}
+
+
+Web UI implementation (HTML + REST endpoints).  
+
+
+{\ttfamily \#include "{}Web\+Ui.\+h"{}}\newline
+{\ttfamily \#include $<$Little\+FS.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_web_ui_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{save\+Config}} (const \mbox{\hyperlink{struct_app_config}{App\+Config}} \&cfg)
+\begin{DoxyCompactList}\small\item\em Save configuration {\ttfamily cfg} into Preferences. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_web_ui_8cpp_a73e6adfdfdcf122b608153c4425ed417}{load\+Pattern\+File}} (const String \&path\+In, \mbox{\hyperlink{struct_pattern}{Pattern}} \&p)
+\begin{DoxyCompactList}\small\item\em Load a pattern from Little\+FS. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_web_ui_8cpp_afda58792d07b9312d7cf0973aa48cf90}{save\+Pattern\+File}} (const String \&path\+In, const \mbox{\hyperlink{struct_pattern}{Pattern}} \&p)
+\begin{DoxyCompactList}\small\item\em Save a pattern to Little\+FS. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{_web_ui_8cpp_a226e967c7bb5c864be0cfcac52bd0e4c}{list\+Pattern\+Files\+Json}} ()
+\begin{DoxyCompactList}\small\item\em Return JSON array of stored pattern files (paths). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_web_ui_8cpp_acf4a4f866256c227b8c5f99446faed6c}{webui\+Begin}} (\mbox{\hyperlink{struct_web_ui_deps}{Web\+Ui\+Deps}} deps)
+\begin{DoxyCompactList}\small\item\em Register all routes for the web UI on the provided server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Web UI implementation (HTML + REST endpoints). 
+
+This file is intentionally self-\/contained\+: it embeds the HTML/\+JS UI and registers Web\+Server routes. Doxygen comments for public APIs are in \doxylink{_web_ui_8h}{Web\+Ui.\+h}; this file documents key internal helpers and endpoints. 
+
+Definition in file \mbox{\hyperlink{_web_ui_8cpp_source}{Web\+Ui.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{_web_ui_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_web_ui_8cpp_a226e967c7bb5c864be0cfcac52bd0e4c}\index{WebUi.cpp@{WebUi.cpp}!listPatternFilesJson@{listPatternFilesJson}}
+\index{listPatternFilesJson@{listPatternFilesJson}!WebUi.cpp@{WebUi.cpp}}
+\doxysubsubsection{\texorpdfstring{listPatternFilesJson()}{listPatternFilesJson()}}
+{\footnotesize\ttfamily \label{_web_ui_8cpp_a226e967c7bb5c864be0cfcac52bd0e4c} 
+String list\+Pattern\+Files\+Json (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Return JSON array of stored pattern files (paths). 
+
+
+
+Definition at line \mbox{\hyperlink{_web_ui_8cpp_source_l00124}{124}} of file \mbox{\hyperlink{_web_ui_8cpp_source}{Web\+Ui.\+cpp}}.
+
+\Hypertarget{_web_ui_8cpp_a73e6adfdfdcf122b608153c4425ed417}\index{WebUi.cpp@{WebUi.cpp}!loadPatternFile@{loadPatternFile}}
+\index{loadPatternFile@{loadPatternFile}!WebUi.cpp@{WebUi.cpp}}
+\doxysubsubsection{\texorpdfstring{loadPatternFile()}{loadPatternFile()}}
+{\footnotesize\ttfamily \label{_web_ui_8cpp_a73e6adfdfdcf122b608153c4425ed417} 
+bool load\+Pattern\+File (\begin{DoxyParamCaption}\item[{const String \&}]{path}{, }\item[{\mbox{\hyperlink{struct_pattern}{Pattern}} \&}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Load a pattern from Little\+FS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path (either full path or just filename; will be normalized). \\
+\hline
+{\em p} & Destination pattern. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_web_ui_8cpp_source_l00103}{103}} of file \mbox{\hyperlink{_web_ui_8cpp_source}{Web\+Ui.\+cpp}}.
+
+\Hypertarget{_web_ui_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}\index{WebUi.cpp@{WebUi.cpp}!saveConfig@{saveConfig}}
+\index{saveConfig@{saveConfig}!WebUi.cpp@{WebUi.cpp}}
+\doxysubsubsection{\texorpdfstring{saveConfig()}{saveConfig()}}
+{\footnotesize\ttfamily \label{_web_ui_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd} 
+void save\+Config (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_app_config}{App\+Config}} \&}]{cfg}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Save configuration {\ttfamily cfg} into Preferences. 
+
+
+
+Definition at line \mbox{\hyperlink{_app_config_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{_app_config_8cpp_source}{App\+Config.\+cpp}}.
+
+\Hypertarget{_web_ui_8cpp_afda58792d07b9312d7cf0973aa48cf90}\index{WebUi.cpp@{WebUi.cpp}!savePatternFile@{savePatternFile}}
+\index{savePatternFile@{savePatternFile}!WebUi.cpp@{WebUi.cpp}}
+\doxysubsubsection{\texorpdfstring{savePatternFile()}{savePatternFile()}}
+{\footnotesize\ttfamily \label{_web_ui_8cpp_afda58792d07b9312d7cf0973aa48cf90} 
+bool save\+Pattern\+File (\begin{DoxyParamCaption}\item[{const String \&}]{path}{, }\item[{const \mbox{\hyperlink{struct_pattern}{Pattern}} \&}]{p}{}\end{DoxyParamCaption})}
+
+
+
+Save a pattern to Little\+FS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path (either full path or just filename; will be normalized). \\
+\hline
+{\em p} & \doxylink{struct_pattern}{Pattern} to save. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_web_ui_8cpp_source_l00115}{115}} of file \mbox{\hyperlink{_web_ui_8cpp_source}{Web\+Ui.\+cpp}}.
+
+\Hypertarget{_web_ui_8cpp_acf4a4f866256c227b8c5f99446faed6c}\index{WebUi.cpp@{WebUi.cpp}!webuiBegin@{webuiBegin}}
+\index{webuiBegin@{webuiBegin}!WebUi.cpp@{WebUi.cpp}}
+\doxysubsubsection{\texorpdfstring{webuiBegin()}{webuiBegin()}}
+{\footnotesize\ttfamily \label{_web_ui_8cpp_acf4a4f866256c227b8c5f99446faed6c} 
+void webui\+Begin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_web_ui_deps}{Web\+Ui\+Deps}}}]{deps}{}\end{DoxyParamCaption})}
+
+
+
+Register all routes for the web UI on the provided server. 
+
+Routes\+:
+\begin{DoxyItemize}
+\item GET {\ttfamily /} \+: HTML UI
+\item GET {\ttfamily /api/files} \+: JSON list of pattern file paths
+\item GET {\ttfamily /api/pattern} \+: Load pattern (query param {\ttfamily file})
+\item POST {\ttfamily /api/pattern} \+: Save pattern (JSON body)
+\item POST {\ttfamily /api/delete} \+: Delete file (JSON body)
+\item POST {\ttfamily /api/row} \+: Step row (+1/-\/1) (JSON body)
+\item POST {\ttfamily /api/confirm} \+: Confirm current row and optionally auto-\/advance
+\item GET {\ttfamily /api/state} \+: Current state for polling
+\item GET {\ttfamily /api/config} \+: Read config
+\item POST {\ttfamily /api/config} \+: Update config
+\item GET {\ttfamily /download} \+: Download a pattern file
+\item POST {\ttfamily /upload} \+: Upload a pattern file 
+\end{DoxyItemize}
+
+Definition at line \mbox{\hyperlink{_web_ui_8cpp_source_l00862}{862}} of file \mbox{\hyperlink{_web_ui_8cpp_source}{Web\+Ui.\+cpp}}.
+

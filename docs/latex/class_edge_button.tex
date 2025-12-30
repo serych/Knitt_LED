@@ -1,0 +1,89 @@
+\doxysection{Edge\+Button Class Reference}
+\hypertarget{class_edge_button}{}\label{class_edge_button}\index{EdgeButton@{EdgeButton}}
+
+
+Debounced button with edge detection.  
+
+
+
+
+{\ttfamily \#include $<$Buttons.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_edge_button_ae2cd38648566ca82a52785c653a5a61d}{Edge\+Button}} (uint32\+\_\+t debounce\+Ms=60)
+\item 
+n void \mbox{\hyperlink{class_edge_button_a598596ea2efd1bc7824d7b031ae668bc}{begin}} (int pin, bool pullup=true)
+\begin{DoxyCompactList}\small\item\em Initialize the button GPIO. \end{DoxyCompactList}\item 
+n bool \mbox{\hyperlink{class_edge_button_ab787105c74459d094967d963477c24f1}{pressed}} ()
+\begin{DoxyCompactList}\small\item\em Check for a debounced press event.~\newline
+ \texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Debounced button with edge detection. 
+
+Designed for INPUT\+\_\+\+PULLUP wiring (pressed = LOW). 
+
+Definition at line \mbox{\hyperlink{_buttons_8h_source_l00017}{17}} of file \mbox{\hyperlink{_buttons_8h_source}{Buttons.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_edge_button_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_edge_button_ae2cd38648566ca82a52785c653a5a61d}\index{EdgeButton@{EdgeButton}!EdgeButton@{EdgeButton}}
+\index{EdgeButton@{EdgeButton}!EdgeButton@{EdgeButton}}
+\doxysubsubsection{\texorpdfstring{EdgeButton()}{EdgeButton()}}
+{\footnotesize\ttfamily \label{class_edge_button_ae2cd38648566ca82a52785c653a5a61d} 
+Edge\+Button\+::\+Edge\+Button (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{debounce\+Ms}{ = {\ttfamily 60}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Definition at line \mbox{\hyperlink{_buttons_8h_source_l00019}{19}} of file \mbox{\hyperlink{_buttons_8h_source}{Buttons.\+h}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_edge_button_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_edge_button_a598596ea2efd1bc7824d7b031ae668bc}\index{EdgeButton@{EdgeButton}!begin@{begin}}
+\index{begin@{begin}!EdgeButton@{EdgeButton}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \label{class_edge_button_a598596ea2efd1bc7824d7b031ae668bc} 
+n void Edge\+Button\+::begin (\begin{DoxyParamCaption}\item[{int}]{pin}{, }\item[{bool}]{pullup}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize the button GPIO. 
+
+
+
+Definition at line \mbox{\hyperlink{_buttons_8h_source_l00021}{21}} of file \mbox{\hyperlink{_buttons_8h_source}{Buttons.\+h}}.
+
+\Hypertarget{class_edge_button_ab787105c74459d094967d963477c24f1}\index{EdgeButton@{EdgeButton}!pressed@{pressed}}
+\index{pressed@{pressed}!EdgeButton@{EdgeButton}}
+\doxysubsubsection{\texorpdfstring{pressed()}{pressed()}}
+{\footnotesize\ttfamily \label{class_edge_button_ab787105c74459d094967d963477c24f1} 
+n bool Edge\+Button\+::pressed (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check for a debounced press event.~\newline
+ \texorpdfstring{$\ast$}{*}. 
+
+~\newline
+ \texorpdfstring{$\ast$}{*} \begin{DoxyReturn}{Returns}
+true exactly once per physical press (HIGH-\/\texorpdfstring{$>$}{>}LOW with pull-\/up).~\newline
+ 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_buttons_8h_source_l00030}{30}} of file \mbox{\hyperlink{_buttons_8h_source}{Buttons.\+h}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_buttons_8h}{Buttons.\+h}}\end{DoxyCompactItemize}

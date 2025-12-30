@@ -1,0 +1,60 @@
+\doxysection{Led\+View.\+h}
+\hypertarget{_led_view_8h_source}{}\label{_led_view_8h_source}\index{src/LedView.h@{src/LedView.h}}
+\mbox{\hyperlink{_led_view_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00009}00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <Adafruit\_NeoPixel.h>}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pattern_8h}{Pattern.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_app_config_8h}{AppConfig.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00018}\mbox{\hyperlink{class_led_view}{00018}}\ \textcolor{keyword}{class\ }LedView\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00019}00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00020}00020\ \ \ LedView(uint16\_t\ ledCount,\ \textcolor{keywordtype}{int}\ pin,\ neoPixelType\ type)}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00021}00021\ \ \ \ \ :\ \_strip(ledCount,\ pin,\ type)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00023}00023\ \ \ \textcolor{keywordtype}{void}\ begin(uint8\_t\ brightness)\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00024}00024\ \ \ \ \ \_strip.begin();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00025}00025\ \ \ \ \ \_strip.setBrightness(brightness);}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00026}00026\ \ \ \ \ \_strip.clear();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00027}00027\ \ \ \ \ \_strip.show();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00028}00028\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00030}00030\ \ \ \textcolor{keywordtype}{void}\ setBrightness(uint8\_t\ b)\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00031}00031\ \ \ \ \ \_strip.setBrightness(b);}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00032}00032\ \ \ \ \ \_strip.show();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00033}00033\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00035}00035\ \ \ \textcolor{comment}{//\ LED0\ is\ RIGHTMOST\ =\ needle\ \#1.}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00036}00036\ \ \ \textcolor{comment}{//\ Internal\ col\ 0\ is\ LEFT,\ so\ mapping:\ col-\/>led\ =\ (w-\/1-\/col)}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00037}00037\ \ \ \textcolor{keywordtype}{void}\ showRow(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_pattern}{Pattern}}\&\ p,\ \textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{bool}\ confirmed,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg)\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00038}00038\ \ \ \ \ \_strip.clear();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{int}\ w\ =\ p.w;}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{int}\ leds\ =\ \_strip.numPixels();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{int}\ use\ =\ min(w,\ leds);}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00043}00043\ \ \ \ \ uint32\_t\ col\ =\ confirmed\ ?\ cfg.colorConfirmed\ :\ cfg.colorActive;}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ use;\ c++)\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00046}00046\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!p.px[row][c])\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00047}00047\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ li\ =\ (w\ -\/\ 1)\ -\/\ c;}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00048}00048\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (li\ >=\ 0\ \&\&\ li\ <\ leds)\ \_strip.setPixelColor(li,\ col);}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00050}00050\ \ \ \ \ \_strip.show();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00051}00051\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00053}00053\ \ \ \textcolor{keywordtype}{void}\ blinkRow(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_pattern}{Pattern}}\&\ p,\ \textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{bool}\ confirmed,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg,\ \textcolor{keywordtype}{bool}\ on)\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (on)\ showRow(p,\ row,\ confirmed,\ cfg);}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00056}00056\ \ \ \ \ \ \ \_strip.clear();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00057}00057\ \ \ \ \ \ \ \_strip.show();}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00058}00058\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00059}00059\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00061}00061\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00062}00062\ \ \ Adafruit\_NeoPixel\ \_strip;}
+\DoxyCodeLine{\Hypertarget{_led_view_8h_source_l00063}00063\ \};}
+
+\end{DoxyCode}

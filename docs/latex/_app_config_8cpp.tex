@@ -1,0 +1,58 @@
+\doxysection{src/\+App\+Config.cpp File Reference}
+\hypertarget{_app_config_8cpp}{}\label{_app_config_8cpp}\index{src/AppConfig.cpp@{src/AppConfig.cpp}}
+
+
+Preferences-\/backed load/save for \doxylink{struct_app_config}{App\+Config}.  
+
+
+{\ttfamily \#include "{}App\+Config.\+h"{}}\newline
+{\ttfamily \#include $<$Preferences.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_app_config_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}{load\+Config}} (\mbox{\hyperlink{struct_app_config}{App\+Config}} \&cfg)
+\begin{DoxyCompactList}\small\item\em Load configuration from Preferences into {\ttfamily cfg}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app_config_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{save\+Config}} (const \mbox{\hyperlink{struct_app_config}{App\+Config}} \&cfg)
+\begin{DoxyCompactList}\small\item\em Save configuration {\ttfamily cfg} into Preferences. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Preferences-\/backed load/save for \doxylink{struct_app_config}{App\+Config}. 
+
+Stores user settings in ESP32 Preferences under namespace "{}knittled"{}. Keys are kept short to reduce NVS usage. 
+
+Definition in file \mbox{\hyperlink{_app_config_8cpp_source}{App\+Config.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{_app_config_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_app_config_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}\index{AppConfig.cpp@{AppConfig.cpp}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!AppConfig.cpp@{AppConfig.cpp}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily \label{_app_config_8cpp_a6a14dee581f9ce23811e907efc0d6e9f} 
+void load\+Config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_app_config}{App\+Config}} \&}]{cfg}{}\end{DoxyParamCaption})}
+
+
+
+Load configuration from Preferences into {\ttfamily cfg}. 
+
+
+
+Definition at line \mbox{\hyperlink{_app_config_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_app_config_8cpp_source}{App\+Config.\+cpp}}.
+
+\Hypertarget{_app_config_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}\index{AppConfig.cpp@{AppConfig.cpp}!saveConfig@{saveConfig}}
+\index{saveConfig@{saveConfig}!AppConfig.cpp@{AppConfig.cpp}}
+\doxysubsubsection{\texorpdfstring{saveConfig()}{saveConfig()}}
+{\footnotesize\ttfamily \label{_app_config_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd} 
+void save\+Config (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_app_config}{App\+Config}} \&}]{cfg}{}\end{DoxyParamCaption})}
+
+
+
+Save configuration {\ttfamily cfg} into Preferences. 
+
+
+
+Definition at line \mbox{\hyperlink{_app_config_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{_app_config_8cpp_source}{App\+Config.\+cpp}}.
+

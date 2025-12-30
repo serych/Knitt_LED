@@ -1,0 +1,42 @@
+\doxysection{App\+Config.\+cpp}
+\hypertarget{_app_config_8cpp_source}{}\label{_app_config_8cpp_source}\index{src/AppConfig.cpp@{src/AppConfig.cpp}}
+\mbox{\hyperlink{_app_config_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_app_config_8h}{AppConfig.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <Preferences.h>}}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00012}00012\ \textcolor{keyword}{static}\ Preferences\ prefs;}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00017}\mbox{\hyperlink{_app_config_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}{00017}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_app_config_8cpp_a6a14dee581f9ce23811e907efc0d6e9f}{loadConfig}}(\mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg)\ \{}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00018}00018\ \ \ prefs.begin(\textcolor{stringliteral}{"{}knittled"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00019}00019\ \ \ cfg.colorActive\ =\ (uint32\_t)prefs.getUInt(\textcolor{stringliteral}{"{}cA"{}},\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})cfg.colorActive);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00020}00020\ \ \ cfg.colorConfirmed\ =\ (uint32\_t)prefs.getUInt(\textcolor{stringliteral}{"{}cC"{}},\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})cfg.colorConfirmed);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00021}00021\ \ \ cfg.brightness\ =\ (uint8\_t)prefs.getUChar(\textcolor{stringliteral}{"{}br"{}},\ cfg.brightness);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00023}00023\ \ \ cfg.autoAdvance\ =\ prefs.getBool(\textcolor{stringliteral}{"{}aa"{}},\ cfg.autoAdvance);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00024}00024\ \ \ cfg.blinkWarning\ =\ prefs.getBool(\textcolor{stringliteral}{"{}bw"{}},\ cfg.blinkWarning);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00026}00026\ \ \ cfg.currentPatternFile\ =\ prefs.getString(\textcolor{stringliteral}{"{}file"{}},\ cfg.currentPatternFile);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00027}00027\ \ \ cfg.activeRow\ =\ prefs.getInt(\textcolor{stringliteral}{"{}row"{}},\ cfg.activeRow);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00028}00028\ \ \ cfg.rowFromBottom\ =\ prefs.getBool(\textcolor{stringliteral}{"{}rb"{}},\ cfg.rowFromBottom);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00029}00029\ \ \ prefs.end();}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00030}00030\ \}}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00035}\mbox{\hyperlink{_app_config_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_app_config_8cpp_a9358b8ed2042cddd9cedbb59d5cbafdd}{saveConfig}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_app_config}{AppConfig}}\&\ cfg)\ \{}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00036}00036\ \ \ prefs.begin(\textcolor{stringliteral}{"{}knittled"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00037}00037\ \ \ prefs.putUInt(\textcolor{stringliteral}{"{}cA"{}},\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})cfg.colorActive);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00038}00038\ \ \ prefs.putUInt(\textcolor{stringliteral}{"{}cC"{}},\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})cfg.colorConfirmed);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00039}00039\ \ \ prefs.putUChar(\textcolor{stringliteral}{"{}br"{}},\ cfg.brightness);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00041}00041\ \ \ prefs.putBool(\textcolor{stringliteral}{"{}aa"{}},\ cfg.autoAdvance);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00042}00042\ \ \ prefs.putBool(\textcolor{stringliteral}{"{}bw"{}},\ cfg.blinkWarning);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00044}00044\ \ \ prefs.putString(\textcolor{stringliteral}{"{}file"{}},\ cfg.currentPatternFile);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00045}00045\ \ \ prefs.putInt(\textcolor{stringliteral}{"{}row"{}},\ cfg.activeRow);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00046}00046\ \ \ prefs.putBool(\textcolor{stringliteral}{"{}rb"{}},\ cfg.rowFromBottom);}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00047}00047\ \ \ prefs.end();}
+\DoxyCodeLine{\Hypertarget{_app_config_8cpp_source_l00048}00048\ \}}
+
+\end{DoxyCode}

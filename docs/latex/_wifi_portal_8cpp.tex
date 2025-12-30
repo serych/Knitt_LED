@@ -1,0 +1,62 @@
+\doxysection{src/\+Wifi\+Portal.cpp File Reference}
+\hypertarget{_wifi_portal_8cpp}{}\label{_wifi_portal_8cpp}\index{src/WifiPortal.cpp@{src/WifiPortal.cpp}}
+
+
+Implementation of Wi-\/\+Fi provisioning portal.  
+
+
+{\ttfamily \#include "{}Wifi\+Portal.\+h"{}}\newline
+{\ttfamily \#include $<$Wi\+Fi.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{_wifi_portal_8cpp_a3b402b0b4899a2ee0065995d5129a840}{wifi\+Connect\+STA}} (const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&c, uint32\+\_\+t timeout\+Ms)
+\item 
+void \mbox{\hyperlink{_wifi_portal_8cpp_ae0ad348b6d1ce4db070af7fa54bdef81}{wifi\+Stop\+Portal}} (DNSServer \&dns)
+\item 
+void \mbox{\hyperlink{_wifi_portal_8cpp_a9e2a76f08a7125600f384876ebd7244e}{wifi\+Start\+Portal}} (Web\+Server \&server, DNSServer \&dns, const char \texorpdfstring{$\ast$}{*}ap\+Ssid, \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&creds, std\+::function$<$ void(const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&)$>$ on\+Creds\+Saved, std\+::function$<$ void(const IPAddress \&)$>$ on\+Connected)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of Wi-\/\+Fi provisioning portal. 
+
+Uses Web\+Server + DNSServer to behave as a captive portal. Network scanning is performed on demand when the portal root page is requested. 
+
+Definition in file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{_wifi_portal_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_wifi_portal_8cpp_a3b402b0b4899a2ee0065995d5129a840}\index{WifiPortal.cpp@{WifiPortal.cpp}!wifiConnectSTA@{wifiConnectSTA}}
+\index{wifiConnectSTA@{wifiConnectSTA}!WifiPortal.cpp@{WifiPortal.cpp}}
+\doxysubsubsection{\texorpdfstring{wifiConnectSTA()}{wifiConnectSTA()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8cpp_a3b402b0b4899a2ee0065995d5129a840} 
+bool wifi\+Connect\+STA (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&}]{c}{, }\item[{uint32\+\_\+t}]{timeout\+Ms}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00014}{14}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+
+\Hypertarget{_wifi_portal_8cpp_a9e2a76f08a7125600f384876ebd7244e}\index{WifiPortal.cpp@{WifiPortal.cpp}!wifiStartPortal@{wifiStartPortal}}
+\index{wifiStartPortal@{wifiStartPortal}!WifiPortal.cpp@{WifiPortal.cpp}}
+\doxysubsubsection{\texorpdfstring{wifiStartPortal()}{wifiStartPortal()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8cpp_a9e2a76f08a7125600f384876ebd7244e} 
+void wifi\+Start\+Portal (\begin{DoxyParamCaption}\item[{Web\+Server \&}]{server}{, }\item[{DNSServer \&}]{dns}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{ap\+Ssid}{, }\item[{\mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&}]{creds}{, }\item[{std\+::function$<$ void(const \mbox{\hyperlink{struct_wifi_creds}{Wifi\+Creds}} \&)$>$}]{on\+Creds\+Saved}{, }\item[{std\+::function$<$ void(const IPAddress \&)$>$}]{on\+Connected}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00050}{50}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+
+\Hypertarget{_wifi_portal_8cpp_ae0ad348b6d1ce4db070af7fa54bdef81}\index{WifiPortal.cpp@{WifiPortal.cpp}!wifiStopPortal@{wifiStopPortal}}
+\index{wifiStopPortal@{wifiStopPortal}!WifiPortal.cpp@{WifiPortal.cpp}}
+\doxysubsubsection{\texorpdfstring{wifiStopPortal()}{wifiStopPortal()}}
+{\footnotesize\ttfamily \label{_wifi_portal_8cpp_ae0ad348b6d1ce4db070af7fa54bdef81} 
+void wifi\+Stop\+Portal (\begin{DoxyParamCaption}\item[{DNSServer \&}]{dns}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_wifi_portal_8cpp_source_l00029}{29}} of file \mbox{\hyperlink{_wifi_portal_8cpp_source}{Wifi\+Portal.\+cpp}}.
+

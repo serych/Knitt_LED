@@ -1,0 +1,52 @@
+\doxysection{Oled\+View.\+h}
+\hypertarget{_oled_view_8h_source}{}\label{_oled_view_8h_source}\index{src/OledView.h@{src/OledView.h}}
+\mbox{\hyperlink{_oled_view_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00009}00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <U8g2lib.h>}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00016}\mbox{\hyperlink{class_oled_view}{00016}}\ \textcolor{keyword}{class\ }OledView\ \{}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00017}00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00018}00018\ \ \ \textcolor{keyword}{explicit}\ OledView(U8G2\&\ d)\ :\ \_d(d)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00020}00020\ \ \ \textcolor{keywordtype}{void}\ begin()\ \{\ \_d.begin();\ \}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00022}00022\ \ \ \textcolor{keywordtype}{void}\ showIp(\textcolor{keyword}{const}\ String\&\ ip)\ \{}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00023}00023\ \ \ \ \ \_d.clearBuffer();}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00024}00024\ \ \ \ \ \_d.setFont(u8g2\_font\_8x13\_tf);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00025}00025\ \ \ \ \ \_d.drawStr(0,\ 14,\ \textcolor{stringliteral}{"{}Connected"{}});}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00026}00026\ \ \ \ \ \_d.setFont(u8g2\_font\_6x12\_tf);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00027}00027\ \ \ \ \ \_d.drawStr(0,\ 30,\ ip.c\_str());}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00028}00028\ \ \ \ \ \_d.sendBuffer();}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00029}00029\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00031}00031\ \ \ \textcolor{comment}{//\ Big\ readable\ status\ line:}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00032}00032\ \ \ \textcolor{comment}{//\ Row:07/24,\ Tot:53}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00033}00033\ \ \ \textcolor{keywordtype}{void}\ showKnitStatus(\textcolor{keywordtype}{int}\ row1based,\ \textcolor{keywordtype}{int}\ rowsTotal,\ uint32\_t\ tot)\ \{}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{char}\ buf1[32];}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00035}00035\ \ \ \ \ snprintf(buf1,\ \textcolor{keyword}{sizeof}(buf1),\ \textcolor{stringliteral}{"{}Row:\%02d/\%02d"{}},\ row1based,\ rowsTotal);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00037}00037\ \ \ \ \ \textcolor{keywordtype}{char}\ buf2[32];}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00038}00038\ \ \ \ \ snprintf(buf2,\ \textcolor{keyword}{sizeof}(buf2),\ \textcolor{stringliteral}{"{}Tot:\%lu"{}},\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long})tot);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00040}00040\ \ \ \ \ \_d.clearBuffer();}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00041}00041\ \ \ \ \ \textcolor{comment}{//\ Big-\/ish\ font\ that\ fits\ 128x32\ nicely:}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00042}00042\ \ \ \ \ \textcolor{comment}{//\ 8x13\ for\ first\ line,\ 9x18\ for\ second\ would\ be\ tight;}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//\ This\ combo\ is\ very\ readable:}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00044}00044\ \ \ \ \ \_d.setFont(u8g2\_font\_8x13\_tf);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00045}00045\ \ \ \ \ \_d.drawStr(0,\ 14,\ buf1);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00047}00047\ \ \ \ \ \_d.setFont(u8g2\_font\_8x13B\_tf);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00048}00048\ \ \ \ \ \_d.drawStr(0,\ 30,\ buf2);}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00050}00050\ \ \ \ \ \_d.sendBuffer();}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00051}00051\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00053}00053\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00054}00054\ \ \ U8G2\&\ \_d;}
+\DoxyCodeLine{\Hypertarget{_oled_view_8h_source_l00055}00055\ \};}
+
+\end{DoxyCode}
