@@ -33,12 +33,12 @@
 static constexpr int PIN_SDA = 21;
 static constexpr int PIN_SCL = 22;
 
-static constexpr int PIN_BTN_UP          = 32;
-static constexpr int PIN_BTN_DOWN        = 33;
-static constexpr int PIN_BTN_CONFIRM     = 25;
+static constexpr int PIN_BTN_UP          = 32; // touch
+static constexpr int PIN_BTN_DOWN        = 33; // touch
+static constexpr int PIN_BTN_CONFIRM     = 27; // touch
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
 
-static constexpr int PIN_NEOPIXEL = 27;
+static constexpr int PIN_NEOPIXEL = 25;
 static constexpr int LED_COUNT    = 12;
 
 static constexpr neoPixelType LED_TYPE = NEO_GRB + NEO_KHZ800;
