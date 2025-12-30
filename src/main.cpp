@@ -24,9 +24,9 @@
 static constexpr int PIN_SDA = 21;
 static constexpr int PIN_SCL = 22;
 
-static constexpr int PIN_BTN_UP        = 32;
-static constexpr int PIN_BTN_DOWN      = 33;
-static constexpr int PIN_BTN_CONFIRM   = 25;
+static constexpr int PIN_BTN_UP          = 32;
+static constexpr int PIN_BTN_DOWN        = 33;
+static constexpr int PIN_BTN_CONFIRM     = 25;
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
 
 static constexpr int PIN_NEOPIXEL = 27;
@@ -41,6 +41,8 @@ static constexpr neoPixelType LED_TYPE = NEO_GRB + NEO_KHZ800;
 WebServer server(80);
 DNSServer dns;
 Preferences prefs;
+
+static bool portalActive = false;
 
 // OLED
 U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
@@ -97,14 +99,37 @@ static void ensureFS() {
   }
 }
 
-static void clampActiveRow() {
-  if (cfg.activeRow < 0) cfg.activeRow = 0;
-  if (cfg.activeRow >= pattern.h) cfg.activeRow = pattern.h - 1;
+// Wrap row index 0..h-1
+static int wrapRow(int r) {
+  if (pattern.h <= 0) return 0;
+  while (r < 0) r += pattern.h;
+  while (r >= pattern.h) r -= pattern.h;
+  return r;
+}
+
+// Map "step +1/-1" to internal row index change based on direction
+// rowFromBottom=false: +1 means go down (row index +1)
+// rowFromBottom=true:  +1 means go up in index (row index -1) because counting starts from bottom
+static void stepRow(int step) {
+  cfg.warnBlinkActive = false;
+
+  int dir = cfg.rowFromBottom ? -1 : +1;
+  cfg.activeRow = wrapRow(cfg.activeRow + step * dir);
+
+  saveConfig(cfg);
+}
+
+static int shownRowNumber1based() {
+  // OLED/web should show "Row 1" at the "start" according to direction
+  // activeRow is internal index where 0 is top.
+  return cfg.rowFromBottom ? (pattern.h - cfg.activeRow) : (cfg.activeRow + 1);
 }
 
 static void refreshOutputs() {
-  clampActiveRow();
-  oled.showKnitStatus(cfg.activeRow + 1, pattern.h, cfg.totalPulses);
+  // OLED
+  oled.showKnitStatus(shownRowNumber1based(), pattern.h, cfg.totalPulses);
+
+  // LEDs (active row)
   leds.showRow(pattern, cfg.activeRow, rowConfirmed[cfg.activeRow], cfg);
 }
 
@@ -112,36 +137,28 @@ static void refreshOutputs() {
 // ------------------- KNITTING ACTIONS ------------------------
 // ============================================================
 
-static void doRowDelta(int delta) {
-  cfg.warnBlinkActive = false;
-  cfg.activeRow += delta;
-  clampActiveRow();
-  saveConfig(cfg);
-  refreshOutputs();
-}
-
 static void doConfirm() {
   rowConfirmed[cfg.activeRow] = true;
   cfg.warnBlinkActive = false;
 
-  if (cfg.autoAdvance && cfg.activeRow < pattern.h - 1) {
-    cfg.activeRow++;
+  if (cfg.autoAdvance) {
+    stepRow(+1);          // wraps + respects direction
+  } else {
+    saveConfig(cfg);
   }
 
-  saveConfig(cfg);
   refreshOutputs();
 }
 
 static void onCarriagePulse() {
   cfg.totalPulses++;
 
+  // Blink warning if carriage moved but current row not confirmed
   if (cfg.blinkWarning && !rowConfirmed[cfg.activeRow]) {
     cfg.warnBlinkActive = true;
   }
 
-  cfg.activeRow++;
-  clampActiveRow();
-  saveConfig(cfg);
+  stepRow(+1);            // carriage acts like "UP" (next row in chosen direction)
   refreshOutputs();
 }
 
@@ -178,7 +195,7 @@ void setup() {
   loadConfig(cfg);
   loadWifiCreds();
 
-  // Load or create pattern
+  // Load or create default pattern
   if (!loadPatternFile(cfg.currentPatternFile, pattern)) {
     pattern.name = "default";
     pattern.w = 12;
@@ -188,7 +205,7 @@ void setup() {
     saveConfig(cfg);
   }
 
-  clampActiveRow();
+  cfg.activeRow = wrapRow(cfg.activeRow);
 
   // LEDs
   leds.begin(cfg.brightness);
@@ -199,16 +216,17 @@ void setup() {
   btnConfirm.begin(PIN_BTN_CONFIRM, true);
   btnCarriage.begin(PIN_SENSOR_CARRIAGE, true);
 
-  // Try STA WiFi
+  // ---- Try STA WiFi first ----
   if (!wifiCreds.ssid.isEmpty() && wifiConnectSTA(wifiCreds, 12000)) {
     oled.showIp(WiFi.localIP().toString());
     startMainServer();
-    delay(500);
+    delay(350);
     refreshOutputs();
     return;
   }
 
-  // Fallback WiFi portal
+  // ---- Fallback provisioning portal ----
+  portalActive = true;
   oled.showIp("AP: KnittLED");
 
   wifiStartPortal(
@@ -220,15 +238,15 @@ void setup() {
       saveWifiCreds(c);
     },
     [&](const IPAddress& ip) {
+      portalActive = false;
+
       oled.showIp(ip.toString());
 
       wifiStopPortal(dns);
-
       server.stop();
-      startMainServer();
 
-      delay(500);
-      refreshOutputs();
+      delay(800);     // show IP briefly
+      ESP.restart();  // reboot to clean STA mode
     }
   );
 }
@@ -239,17 +257,70 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  dns.processNextRequest();
+  if (portalActive) {
+    dns.processNextRequest();
+  }
 
   // Hardware controls active only when connected
   if (WiFi.status() == WL_CONNECTED) {
-    if (btnUp.pressed())        doRowDelta(+1);
-    if (btnDown.pressed())      doRowDelta(-1);
-    if (btnConfirm.pressed())   doConfirm();
-    if (btnCarriage.pressed())  onCarriagePulse();
+    if (btnUp.pressed()) {
+      stepRow(+1);
+      refreshOutputs();
+    }
+    if (btnDown.pressed()) {
+      stepRow(-1);
+      refreshOutputs();
+    }
+    if (btnConfirm.pressed()) {
+      doConfirm();
+    }
+    if (btnCarriage.pressed()) {
+      onCarriagePulse();
+    }
   }
 
-  // Blink warning handling
+  // ---- Detect changes made by Web UI and refresh outputs ----
+  // Web UI updates cfg.activeRow via /api/row and changes cfg via /api/config.
+  // This observer makes OLED + LEDs follow those changes.
+  static int lastRow = -999;
+  static uint32_t lastTot = 0;
+  static bool lastWarn = false;
+  static uint8_t lastBright = 255;
+  static uint32_t lastCA = 0;
+  static uint32_t lastCC = 0;
+  static bool lastRB = false;
+  static int lastH = -1;
+  static int lastW = -1;
+
+  bool changed =
+    (cfg.activeRow != lastRow) ||
+    (cfg.totalPulses != lastTot) ||
+    (cfg.warnBlinkActive != lastWarn) ||
+    (cfg.brightness != lastBright) ||
+    (cfg.colorActive != lastCA) ||
+    (cfg.colorConfirmed != lastCC) ||
+    (cfg.rowFromBottom != lastRB) ||
+    (pattern.h != lastH) ||
+    (pattern.w != lastW);
+
+  if (changed) {
+    // Apply brightness change immediately
+    leds.setBrightness(cfg.brightness);
+
+    refreshOutputs();
+
+    lastRow = cfg.activeRow;
+    lastTot = cfg.totalPulses;
+    lastWarn = cfg.warnBlinkActive;
+    lastBright = cfg.brightness;
+    lastCA = cfg.colorActive;
+    lastCC = cfg.colorConfirmed;
+    lastRB = cfg.rowFromBottom;
+    lastH = pattern.h;
+    lastW = pattern.w;
+  }
+
+  // ---- Blink warning handling ----
   static uint32_t lastBlinkMs = 0;
   static bool blinkOn = true;
 

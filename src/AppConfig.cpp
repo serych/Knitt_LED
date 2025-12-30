@@ -14,6 +14,7 @@ void loadConfig(AppConfig& cfg) {
 
   cfg.currentPatternFile = prefs.getString("file", cfg.currentPatternFile);
   cfg.activeRow = prefs.getInt("row", cfg.activeRow);
+  cfg.rowFromBottom = prefs.getBool("rb", cfg.rowFromBottom);
   prefs.end();
 }
 
@@ -28,5 +29,6 @@ void saveConfig(const AppConfig& cfg) {
 
   prefs.putString("file", cfg.currentPatternFile);
   prefs.putInt("row", cfg.activeRow);
+  prefs.putBool("rb", cfg.rowFromBottom);
   prefs.end();
 }

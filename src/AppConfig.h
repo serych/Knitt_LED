@@ -6,6 +6,10 @@ struct AppConfig {
   uint32_t colorActive = 0x00FF00;     // green
   uint32_t colorConfirmed = 0x0000FF;  // blue
   uint8_t brightness = 64;            // 0..255
+  // Row counting direction:
+  // false = row 1 is top (normal)
+  // true  = row 1 is bottom
+  bool rowFromBottom = false;
 
   // behavior
   bool autoAdvance = true;
