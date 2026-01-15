@@ -38,6 +38,8 @@ static constexpr int PIN_BTN_DOWN        = 27; // touch
 static constexpr int PIN_BTN_CONFIRM     = 13; // touch
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
 
+#define TOUCH_PRESS_THRESHOLD 40
+
 static constexpr int PIN_NEOPIXEL = 2;
 static constexpr int LED_COUNT    = 13;
 
@@ -61,9 +63,9 @@ OledView oled(u8g2);
 LedView leds(LED_COUNT, PIN_NEOPIXEL, LED_TYPE);
 
 // Buttons
-EdgeButton btnUp(60);
-EdgeButton btnDown(60);
-EdgeButton btnConfirm(60);
+TouchButton btnUp(TOUCH_PRESS_THRESHOLD, 60);
+TouchButton btnDown(TOUCH_PRESS_THRESHOLD, 60);
+TouchButton btnConfirm(TOUCH_PRESS_THRESHOLD, 60);
 EdgeButton btnCarriage(40);
 
 // App state
@@ -220,9 +222,9 @@ void setup() {
   leds.begin(cfg.brightness);
 
   // Buttons
-  btnUp.begin(PIN_BTN_UP, true);
-  btnDown.begin(PIN_BTN_DOWN, true);
-  btnConfirm.begin(PIN_BTN_CONFIRM, true);
+  btnUp.begin(PIN_BTN_UP);
+  btnDown.begin(PIN_BTN_DOWN);
+  btnConfirm.begin(PIN_BTN_CONFIRM);
   btnCarriage.begin(PIN_SENSOR_CARRIAGE, true);
 
   // ---- Try STA WiFi first ----
