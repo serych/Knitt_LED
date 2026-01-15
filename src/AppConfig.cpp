@@ -15,7 +15,10 @@ static Preferences prefs;
  * @brief Load configuration from Preferences into @p cfg.
  */
 void loadConfig(AppConfig& cfg) {
-  prefs.begin("knittled", true);
+  // Open in RW to create namespace if missing; avoids NOT_FOUND on first boot.
+  if (!prefs.begin("knittled", false)) {
+    return;
+  }
   cfg.colorActive = (uint32_t)prefs.getUInt("cA", (unsigned int)cfg.colorActive);
   cfg.colorConfirmed = (uint32_t)prefs.getUInt("cC", (unsigned int)cfg.colorConfirmed);
   cfg.brightness = (uint8_t)prefs.getUChar("br", cfg.brightness);
@@ -33,7 +36,9 @@ void loadConfig(AppConfig& cfg) {
  * @brief Save configuration @p cfg into Preferences.
  */
 void saveConfig(const AppConfig& cfg) {
-  prefs.begin("knittled", false);
+  if (!prefs.begin("knittled", false)) {
+    return;
+  }
   prefs.putUInt("cA", (unsigned int)cfg.colorActive);
   prefs.putUInt("cC", (unsigned int)cfg.colorConfirmed);
   prefs.putUChar("br", cfg.brightness);

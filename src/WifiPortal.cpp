@@ -10,19 +10,29 @@
 #include <WiFi.h>
 
 static const byte DNS_PORT = 53;
+static WifiCreds* portalCreds = nullptr;
+static std::function<void(const IPAddress&)> onConnectedFn;
+static std::function<void(const WifiCreds&)> onCredsSavedFn;
+static bool saveRequested = false;
+static bool connectRequested = false;
 
 bool wifiConnectSTA(const WifiCreds& c, uint32_t timeoutMs) {
   if (c.ssid.isEmpty()) return false;
   WiFi.mode(WIFI_STA);
+  WiFi.setAutoReconnect(true);
+  WiFi.setAutoConnect(true);
   WiFi.disconnect(true, true);
   delay(200);
+  Serial.printf("WiFi connect: ssid=%s\n", c.ssid.c_str());
   WiFi.begin(c.ssid.c_str(), c.pass.c_str());
 
   uint32_t start = millis();
   while (millis() - start < timeoutMs) {
-    if (WiFi.status() == WL_CONNECTED) return true;
+    wl_status_t st = WiFi.status();
+    if (st == WL_CONNECTED) return true;
     delay(250);
   }
+  Serial.printf("WiFi connect failed: status=%d\n", (int)WiFi.status());
   return false;
 }
 
@@ -59,6 +69,12 @@ void wifiStartPortal(
   WiFi.softAP(apSsid);
   delay(200);
 
+  portalCreds = &creds;
+  onConnectedFn = onConnected;
+  onCredsSavedFn = onCredsSaved;
+  saveRequested = false;
+  connectRequested = false;
+
   IPAddress apIP = WiFi.softAPIP();
   dns.start(DNS_PORT, "*", apIP);
 
@@ -90,17 +106,15 @@ void wifiStartPortal(
     creds.ssid.trim();
     creds.pass = server.arg("pass");
 
-    onCredsSaved(creds);
+    Serial.printf("Portal save: ssid_len=%u pass_len=%u\n",
+                  (unsigned)creds.ssid.length(),
+                  (unsigned)creds.pass.length());
+    Serial.println("Portal save: scheduling commit");
+    Serial.flush();
+    saveRequested = true;
 
-    bool ok = wifiConnectSTA(creds, 15000);
-    if (ok) {
-      onConnected(WiFi.localIP());
-      server.sendHeader("Location", "http://" + WiFi.localIP().toString() + "/");
-      server.send(302);
-    } else {
-      server.sendHeader("Location", "/");
-      server.send(302);
-    }
+    server.sendHeader("Location", "/");
+    server.send(302);
   });
 
   // Captive portal helpers
@@ -111,4 +125,36 @@ void wifiStartPortal(
   server.onNotFound([&]() { server.sendHeader("Location", "/"); server.send(302); });
 
   server.begin();
+}
+
+void wifiPortalLoop() {
+  if (saveRequested && portalCreds != nullptr) {
+    saveRequested = false;
+    Serial.println("Portal save: committing");
+    Serial.flush();
+    if (onCredsSavedFn) {
+      onCredsSavedFn(*portalCreds);
+    }
+    Serial.println("Portal save: committed");
+    Serial.flush();
+    connectRequested = true;
+  }
+
+  if (!connectRequested || portalCreds == nullptr) return;
+
+  connectRequested = false;
+  Serial.println("Portal connect: attempting STA");
+  Serial.flush();
+
+  bool ok = wifiConnectSTA(*portalCreds, 20000);
+  if (ok) {
+    Serial.println("Portal connect: STA ok");
+    Serial.flush();
+    if (onConnectedFn) {
+      onConnectedFn(WiFi.localIP());
+    }
+  } else {
+    Serial.println("Portal connect: STA failed");
+    Serial.flush();
+  }
 }

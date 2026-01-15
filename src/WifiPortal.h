@@ -31,4 +31,7 @@ void wifiStartPortal(
   std::function<void(const IPAddress&)> onConnected
 );
 
+// Call regularly from loop() while the portal is active.
+void wifiPortalLoop();
+
 void wifiStopPortal(DNSServer& dns);

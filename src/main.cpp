@@ -13,6 +13,8 @@
 #include <DNSServer.h>
 #include <Preferences.h>
 #include <LittleFS.h>
+#include <esp_err.h>
+#include <nvs_flash.h>
 #include <Wire.h>
 #include <U8g2lib.h>
 
@@ -38,10 +40,8 @@ static constexpr int PIN_BTN_DOWN        = 27; // touch
 static constexpr int PIN_BTN_CONFIRM     = 13; // touch
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
 
-#define TOUCH_PRESS_THRESHOLD 40
-
 static constexpr int PIN_NEOPIXEL = 2;
-static constexpr int LED_COUNT    = 13;
+static constexpr int LED_COUNT    = 12;
 
 static constexpr neoPixelType LED_TYPE = NEO_GRB + NEO_KHZ800;
 
@@ -63,9 +63,9 @@ OledView oled(u8g2);
 LedView leds(LED_COUNT, PIN_NEOPIXEL, LED_TYPE);
 
 // Buttons
-TouchButton btnUp(TOUCH_PRESS_THRESHOLD, 60);
-TouchButton btnDown(TOUCH_PRESS_THRESHOLD, 60);
-TouchButton btnConfirm(TOUCH_PRESS_THRESHOLD, 60);
+EdgeButton btnUp(60);
+EdgeButton btnDown(60);
+EdgeButton btnConfirm(60);
 EdgeButton btnCarriage(40);
 
 // App state
@@ -88,17 +88,47 @@ void saveConfig(const AppConfig& cfg);
 // ============================================================
 
 static void loadWifiCreds() {
-  prefs.begin("knittled", true);
+  // Open in RW to create namespace if missing; avoids NOT_FOUND on first boot.
+  if (!prefs.begin("knittled", false)) {
+    Serial.println("Preferences begin failed (wifi creds)");
+    return;
+  }
   wifiCreds.ssid = prefs.getString("ssid", "");
   wifiCreds.pass = prefs.getString("pass", "");
   prefs.end();
+  Serial.printf("WiFi creds loaded: ssid_len=%u pass_len=%u\n",
+                (unsigned)wifiCreds.ssid.length(),
+                (unsigned)wifiCreds.pass.length());
 }
 
 static void saveWifiCreds(const WifiCreds& c) {
-  prefs.begin("knittled", false);
-  prefs.putString("ssid", c.ssid);
-  prefs.putString("pass", c.pass);
+  if (!prefs.begin("knittled", false)) {
+    Serial.println("Preferences begin failed (save wifi creds)");
+    return;
+  }
+  Serial.println("Saving WiFi creds to NVS...");
+  Serial.flush();
+  size_t ssidLen = prefs.putString("ssid", c.ssid);
+  size_t passLen = prefs.putString("pass", c.pass);
   prefs.end();
+  Serial.printf("WiFi creds saved: ssid_len=%u pass_len=%u\n",
+                (unsigned)ssidLen,
+                (unsigned)passLen);
+}
+
+static bool ensureNvs() {
+  esp_err_t err = nvs_flash_init();
+  if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+    Serial.printf("NVS init issue: %s, erasing...\n", esp_err_to_name(err));
+    nvs_flash_erase();
+    err = nvs_flash_init();
+  }
+  if (err != ESP_OK) {
+    Serial.printf("NVS init failed: %s\n", esp_err_to_name(err));
+    return false;
+  }
+  Serial.println("NVS init ok");
+  return true;
 }
 
 static void ensureFS() {
@@ -194,6 +224,7 @@ static void startMainServer() {
 
 void setup() {
   Serial.begin(115200);
+  ensureNvs();
 
   // OLED
   Wire.begin(PIN_SDA, PIN_SCL);
@@ -222,14 +253,16 @@ void setup() {
   leds.begin(cfg.brightness);
 
   // Buttons
-  btnUp.begin(PIN_BTN_UP);
-  btnDown.begin(PIN_BTN_DOWN);
-  btnConfirm.begin(PIN_BTN_CONFIRM);
+  btnUp.begin(PIN_BTN_UP, true);
+  btnDown.begin(PIN_BTN_DOWN, true);
+  btnConfirm.begin(PIN_BTN_CONFIRM, true);
   btnCarriage.begin(PIN_SENSOR_CARRIAGE, true);
 
   // ---- Try STA WiFi first ----
-  if (!wifiCreds.ssid.isEmpty() && wifiConnectSTA(wifiCreds, 12000)) {
-    oled.showIp(WiFi.localIP().toString());
+  if (!wifiCreds.ssid.isEmpty() && wifiConnectSTA(wifiCreds, 20000)) {
+    String ip = WiFi.localIP().toString();
+    Serial.printf("WiFi connected, IP: %s\n", ip.c_str());
+    oled.showIp(ip);
     startMainServer();
     delay(350);
     refreshOutputs();
@@ -251,12 +284,16 @@ void setup() {
     [&](const IPAddress& ip) {
       portalActive = false;
 
-      oled.showIp(ip.toString());
+      String ipStr = ip.toString();
+      Serial.printf("WiFi connected (portal), IP: %s\n", ipStr.c_str());
+      oled.showIp(ipStr);
 
       wifiStopPortal(dns);
       server.stop();
 
       delay(800);     // show IP briefly
+      Serial.println("Portal connected, restarting...");
+      Serial.flush();
       ESP.restart();  // reboot to clean STA mode
     }
   );
@@ -270,6 +307,7 @@ void loop() {
   server.handleClient();
   if (portalActive) {
     dns.processNextRequest();
+    wifiPortalLoop();
   }
 
   // Hardware controls active only when connected
