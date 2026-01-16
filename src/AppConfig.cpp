@@ -21,6 +21,7 @@ void loadConfig(AppConfig& cfg) {
   }
   cfg.colorActive = (uint32_t)prefs.getUInt("cA", (unsigned int)cfg.colorActive);
   cfg.colorConfirmed = (uint32_t)prefs.getUInt("cC", (unsigned int)cfg.colorConfirmed);
+  cfg.colorInactive = (uint32_t)prefs.getUInt("cI", (unsigned int)cfg.colorInactive);
   cfg.brightness = (uint8_t)prefs.getUChar("br", cfg.brightness);
 
   cfg.autoAdvance = prefs.getBool("aa", cfg.autoAdvance);
@@ -29,6 +30,7 @@ void loadConfig(AppConfig& cfg) {
   cfg.currentPatternFile = prefs.getString("file", cfg.currentPatternFile);
   cfg.activeRow = prefs.getInt("row", cfg.activeRow);
   cfg.rowFromBottom = prefs.getBool("rb", cfg.rowFromBottom);
+  cfg.totalPulses = prefs.getUInt("tot", cfg.totalPulses);
   prefs.end();
 }
 
@@ -41,6 +43,7 @@ void saveConfig(const AppConfig& cfg) {
   }
   prefs.putUInt("cA", (unsigned int)cfg.colorActive);
   prefs.putUInt("cC", (unsigned int)cfg.colorConfirmed);
+  prefs.putUInt("cI", (unsigned int)cfg.colorInactive);
   prefs.putUChar("br", cfg.brightness);
 
   prefs.putBool("aa", cfg.autoAdvance);
@@ -49,5 +52,6 @@ void saveConfig(const AppConfig& cfg) {
   prefs.putString("file", cfg.currentPatternFile);
   prefs.putInt("row", cfg.activeRow);
   prefs.putBool("rb", cfg.rowFromBottom);
+  prefs.putUInt("tot", cfg.totalPulses);
   prefs.end();
 }

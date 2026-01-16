@@ -39,6 +39,8 @@ static constexpr int PIN_BTN_UP          = 14; // touch
 static constexpr int PIN_BTN_DOWN        = 27; // touch
 static constexpr int PIN_BTN_CONFIRM     = 13; // touch
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
+static constexpr int PIN_TOUCH_CARRIAGE  = 12; // touch (simulate carriage pulse)
+static constexpr uint16_t TOUCH_THRESHOLD = 40;
 
 static constexpr int PIN_NEOPIXEL = 2;
 static constexpr int LED_COUNT    = 13;
@@ -64,9 +66,10 @@ OledView oled(u8g2);
 LedView leds(LED_COUNT, PIN_NEOPIXEL, LED_TYPE);
 
 // Buttons
-EdgeButton btnUp(60);
-EdgeButton btnDown(60);
-EdgeButton btnConfirm(60);
+TouchButton btnUp(TOUCH_THRESHOLD, 60);
+TouchButton btnDown(TOUCH_THRESHOLD, 60);
+TouchButton btnConfirm(TOUCH_THRESHOLD, 60);
+TouchButton btnTouchCarriage(TOUCH_THRESHOLD, 60);
 EdgeButton btnCarriage(40);
 
 // App state
@@ -153,7 +156,11 @@ static int wrapRow(int r) {
 // rowFromBottom=false: +1 means go down (row index +1)
 // rowFromBottom=true:  +1 means go up in index (row index -1) because counting starts from bottom
 static void stepRow(int step) {
-  cfg.warnBlinkActive = false;
+  if (step > 0 && cfg.blinkWarning && !rowConfirmed[cfg.activeRow]) {
+    cfg.warnBlinkActive = true;
+  } else if (step < 0) {
+    cfg.warnBlinkActive = false;
+  }
 
   int dir = cfg.rowFromBottom ? -1 : +1;
   cfg.activeRow = wrapRow(cfg.activeRow + step * dir);
@@ -194,11 +201,6 @@ static void doConfirm() {
 
 static void onCarriagePulse() {
   cfg.totalPulses++;
-
-  // Blink warning if carriage moved but current row not confirmed
-  if (cfg.blinkWarning && !rowConfirmed[cfg.activeRow]) {
-    cfg.warnBlinkActive = true;
-  }
 
   stepRow(+1);            // carriage acts like "UP" (next row in chosen direction)
   refreshOutputs();
@@ -257,9 +259,10 @@ void setup() {
   leds.setStatusColor(leds.dimColor(leds.color(255, 0, 0), STATUS_LED_BRIGHTNESS)); // red until WiFi status is known
 
   // Buttons
-  btnUp.begin(PIN_BTN_UP, true);
-  btnDown.begin(PIN_BTN_DOWN, true);
-  btnConfirm.begin(PIN_BTN_CONFIRM, true);
+  btnUp.begin(PIN_BTN_UP);
+  btnDown.begin(PIN_BTN_DOWN);
+  btnConfirm.begin(PIN_BTN_CONFIRM);
+  btnTouchCarriage.begin(PIN_TOUCH_CARRIAGE);
   btnCarriage.begin(PIN_SENSOR_CARRIAGE, true);
 
   // ---- Try STA WiFi first ----
@@ -330,6 +333,9 @@ void loop() {
     if (btnConfirm.pressed()) {
       doConfirm();
     }
+    if (btnTouchCarriage.pressed()) {
+      onCarriagePulse();
+    }
     if (btnCarriage.pressed()) {
       onCarriagePulse();
     }
@@ -344,6 +350,7 @@ void loop() {
   static uint8_t lastBright = 255;
   static uint32_t lastCA = 0;
   static uint32_t lastCC = 0;
+  static uint32_t lastCI = 0;
   static bool lastRB = false;
   static int lastH = -1;
   static int lastW = -1;
@@ -355,6 +362,7 @@ void loop() {
     (cfg.brightness != lastBright) ||
     (cfg.colorActive != lastCA) ||
     (cfg.colorConfirmed != lastCC) ||
+    (cfg.colorInactive != lastCI) ||
     (cfg.rowFromBottom != lastRB) ||
     (pattern.h != lastH) ||
     (pattern.w != lastW);
@@ -371,6 +379,7 @@ void loop() {
     lastBright = cfg.brightness;
     lastCA = cfg.colorActive;
     lastCC = cfg.colorConfirmed;
+    lastCI = cfg.colorInactive;
     lastRB = cfg.rowFromBottom;
     lastH = pattern.h;
     lastW = pattern.w;

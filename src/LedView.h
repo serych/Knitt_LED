@@ -61,13 +61,16 @@ public:
     int leds = _strip.numPixels();
     int rowLeds = max(0, leds - 1);
     int use = min(w, rowLeds);
-    uint32_t base = confirmed ? cfg.colorConfirmed : cfg.colorActive;
-    uint32_t col = dimColor(base, _rowBrightness);
+    uint32_t baseOn = confirmed ? cfg.colorConfirmed : cfg.colorActive;
+    uint32_t baseOff = cfg.colorInactive;
+    uint32_t colOn = dimColor(baseOn, _rowBrightness);
+    uint32_t colOff = dimColor(baseOff, _rowBrightness);
 
     for (int c = 0; c < use; c++) {
-      if (!p.px[row][c]) continue;
       int li = 1 + (w - 1) - c;
-      if (li >= 1 && li < leds) _strip.setPixelColor(li, col);
+      if (li >= 1 && li < leds) {
+        _strip.setPixelColor(li, p.px[row][c] ? colOn : colOff);
+      }
     }
     _strip.setPixelColor(0, _statusColor);
     _strip.show();

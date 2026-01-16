@@ -90,7 +90,11 @@ static void stepRowFromWeb(int deltaStep) {
   if (h <= 0) return;
 
   int dir = D.cfg->rowFromBottom ? -1 : +1;
-  D.cfg->warnBlinkActive = false;
+  if (deltaStep > 0 && D.cfg->blinkWarning && !D.rowConfirmed[D.cfg->activeRow]) {
+    D.cfg->warnBlinkActive = true;
+  } else if (deltaStep < 0) {
+    D.cfg->warnBlinkActive = false;
+  }
   D.cfg->activeRow = wrapRowIndex(D.cfg->activeRow + deltaStep * dir, h);
 
   saveConfig(*D.cfg);
@@ -147,6 +151,7 @@ String listPatternFilesJson() {
 // ------------------------------------------------------------
 
 static File uploadFile;
+static void resetRuntimeState();
 
 static void handleUpload() {
   HTTPUpload& up = D.server->upload();
@@ -174,6 +179,8 @@ static void handleUpload() {
 }
 
 static void handleUploadDone() {
+  resetRuntimeState();
+  saveConfig(*D.cfg);
   D.server->send(200, "text/plain", "Upload OK");
 }
 
@@ -185,10 +192,19 @@ static void apiFiles() {
   D.server->send(200, "application/json", listPatternFilesJson());
 }
 
+static void resetRuntimeState() {
+  D.cfg->totalPulses = 1;
+  D.cfg->warnBlinkActive = false;
+  D.cfg->activeRow = 0;
+  for (int i = 0; i < MAX_H; i++) D.rowConfirmed[i] = false;
+}
+
 static void apiGetPattern() {
   String file = D.server->arg("file");
   if (file.isEmpty()) file = D.cfg->currentPatternFile;
   file = normalizePatternPath(file);
+
+  bool switchingPattern = (file != D.cfg->currentPatternFile);
 
   Pattern p;
   if (!loadPatternFile(file, p)) {
@@ -200,8 +216,12 @@ static void apiGetPattern() {
   D.cfg->currentPatternFile = file;
   *D.pattern = p;
 
-  // keep activeRow valid
-  D.cfg->activeRow = wrapRowIndex(D.cfg->activeRow, D.pattern->h);
+  if (switchingPattern) {
+    resetRuntimeState();
+  } else {
+    // keep activeRow valid
+    D.cfg->activeRow = wrapRowIndex(D.cfg->activeRow, D.pattern->h);
+  }
   saveConfig(*D.cfg);
 
   String out = "{";
@@ -318,7 +338,8 @@ static void apiState() {
   out += "\"rowFromBottom\":" + String(D.cfg->rowFromBottom ? "true" : "false") + ",";
   out += "\"brightness\":" + String(D.cfg->brightness) + ",";
   out += "\"colorActive\":" + String((unsigned long)D.cfg->colorActive) + ",";
-  out += "\"colorConfirmed\":" + String((unsigned long)D.cfg->colorConfirmed);
+  out += "\"colorConfirmed\":" + String((unsigned long)D.cfg->colorConfirmed) + ",";
+  out += "\"colorInactive\":" + String((unsigned long)D.cfg->colorInactive);
   out += "}";
   D.server->send(200, "application/json", out);
 }
@@ -327,6 +348,7 @@ static void apiGetConfig() {
   String out = "{";
   out += "\"colorActive\":" + String((unsigned long)D.cfg->colorActive) + ",";
   out += "\"colorConfirmed\":" + String((unsigned long)D.cfg->colorConfirmed) + ",";
+  out += "\"colorInactive\":" + String((unsigned long)D.cfg->colorInactive) + ",";
   out += "\"brightness\":" + String(D.cfg->brightness) + ",";
   out += "\"autoAdvance\":" + String(D.cfg->autoAdvance ? "true" : "false") + ",";
   out += "\"blinkWarning\":" + String(D.cfg->blinkWarning ? "true" : "false") + ",";
@@ -361,11 +383,12 @@ static void apiPostConfig() {
     return true;
   };
 
-  uint32_t ca, cc, br;
+  uint32_t ca, cc, ci, br;
   bool aa, bw, rb;
 
   if (getNum("colorActive", ca))    D.cfg->colorActive = ca;
   if (getNum("colorConfirmed", cc)) D.cfg->colorConfirmed = cc;
+  if (getNum("colorInactive", ci))  D.cfg->colorInactive = ci;
   if (getNum("brightness", br))     D.cfg->brightness = (uint8_t)constrain((int)br, 0, 255);
 
   if (getBool("autoAdvance", aa))   D.cfg->autoAdvance = aa;
@@ -376,6 +399,14 @@ static void apiPostConfig() {
 
   saveConfig(*D.cfg);
   D.server->send(200, "application/json", "{\"ok\":true}");
+}
+
+static void apiReset() {
+  resetRuntimeState();
+
+  saveConfig(*D.cfg);
+  String out = "{\"ok\":true,\"activeRow\":" + String(D.cfg->activeRow) + "}";
+  D.server->send(200, "application/json", out);
 }
 
 static void handleDownload() {
@@ -486,6 +517,7 @@ input,select{width:100%;padding:10px;border-radius:12px;border:1px solid #ccc}
       <button class="secondary" id="btnPrevRow">Row -</button>
       <button class="secondary" id="btnNextRow">Row +</button>
       <button id="btnConfirm">Confirm</button>
+      <button class="secondary" id="btnReset">Reset</button>
     </div>
 
     <div class="small" style="margin-top:10px">
@@ -507,6 +539,9 @@ input,select{width:100%;padding:10px;border-radius:12px;border:1px solid #ccc}
 
     <label>Confirmed color</label>
     <input id="cfgConfirmed" type="color" value="#0000ff"/>
+
+    <label>Inactive color</label>
+    <input id="cfgInactive" type="color" value="#202020"/>
 
     <label>Brightness (0..255) <span class="small" id="cfgBrightVal">64</span></label>
     <input id="cfgBright" type="range" min="0" max="255" value="64"/>
@@ -552,7 +587,18 @@ const ctx=c.getContext("2d");
 function setStatus(t){document.getElementById("status").textContent=t;}
 function setMode(m){mode=m;document.getElementById("modePill").textContent=(m==="edit"?"EDIT":"KNIT"); draw();}
 document.getElementById("btnEdit").onclick=()=>setMode("edit");
-document.getElementById("btnKnit").onclick=()=>setMode("knit");
+async function resetStateFromUi(){
+  const d=await apiPOST("/api/reset",{});
+  activeRow=d.activeRow;
+  totalPulses=1;
+  warn=false;
+  renderPills();
+  if(mode==="knit") draw();
+}
+document.getElementById("btnKnit").onclick=async()=>{
+  await resetStateFromUi();
+  setMode("knit");
+};
 
 function ensurePixels(){
   if(!pat.pixels||pat.pixels.length!==pat.h){
@@ -690,7 +736,10 @@ async function saveSelected(){
   document.getElementById("fileList").value=file;
 }
 
-document.getElementById("btnLoad").onclick=loadSelected;
+document.getElementById("btnLoad").onclick=async()=>{
+  await loadSelected();
+  await resetStateFromUi();
+};
 document.getElementById("btnSave").onclick=saveSelected;
 
 document.getElementById("btnReload").onclick=async()=>{
@@ -748,6 +797,14 @@ document.getElementById("btnConfirm").onclick=async()=>{
   activeRow=d.activeRow;
   if(mode==="knit") draw();
 };
+document.getElementById("btnReset").onclick=async()=>{
+  const d=await apiPOST("/api/reset",{});
+  activeRow=d.activeRow;
+  totalPulses=1;
+  warn=false;
+  renderPills();
+  if(mode==="knit") draw();
+};
 
 document.getElementById("btnDownload").onclick=()=>{
   const file=document.getElementById("fileList").value;
@@ -763,6 +820,7 @@ document.getElementById("btnUpload").onclick=async()=>{
   if(!r.ok) return alert("Upload failed: "+await r.text());
   setStatus(await r.text());
   await refreshFiles();
+  await resetStateFromUi();
 };
 
 // ---- Config modal ----
@@ -776,6 +834,7 @@ document.getElementById("btnConfig").onclick=async()=>{
   const cfg=await apiGET("/api/config");
   document.getElementById("cfgActive").value=intToHexColor(cfg.colorActive);
   document.getElementById("cfgConfirmed").value=intToHexColor(cfg.colorConfirmed);
+  document.getElementById("cfgInactive").value=intToHexColor(cfg.colorInactive);
   document.getElementById("cfgBright").value=cfg.brightness;
   document.getElementById("cfgBrightVal").textContent=cfg.brightness;
   document.getElementById("cfgAA").checked=!!cfg.autoAdvance;
@@ -791,6 +850,7 @@ document.getElementById("cfgSave").onclick=async()=>{
   const payload={
     colorActive: hexToInt(document.getElementById("cfgActive").value),
     colorConfirmed: hexToInt(document.getElementById("cfgConfirmed").value),
+    colorInactive: hexToInt(document.getElementById("cfgInactive").value),
     brightness: parseInt(document.getElementById("cfgBright").value,10),
     autoAdvance: document.getElementById("cfgAA").checked,
     blinkWarning: document.getElementById("cfgBW").checked,
@@ -834,15 +894,13 @@ async function poll(){
 
 async function init(){
   await refreshFiles();
-  // If no files, create default entry view by loading default
-  if (!document.getElementById("fileList").value) {
-    // Force load default pattern endpoint (server will create it if missing)
-    const data = await apiGET("/api/pattern");
-    pat = data.pattern;
-    activeRow = data.activeRow || 0;
-  } else {
-    await loadSelected();
-  }
+  // Load the currently selected pattern without switching it.
+  const data = await apiGET("/api/pattern");
+  pat = data.pattern;
+  activeRow = data.activeRow || 0;
+  document.getElementById("fileList").value = data.file;
+  document.getElementById("w").value = pat.w;
+  document.getElementById("h").value = pat.h;
 
   setMode("edit");
   renderPills();
@@ -882,6 +940,7 @@ void webuiBegin(WebUiDeps deps) {
 
   D.server->on("/api/config", HTTP_GET, apiGetConfig);
   D.server->on("/api/config", HTTP_POST, apiPostConfig);
+  D.server->on("/api/reset", HTTP_POST, apiReset);
 
   // Download / Upload
   D.server->on("/download", HTTP_GET, handleDownload);

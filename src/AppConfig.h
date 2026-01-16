@@ -25,6 +25,9 @@ struct AppConfig {
   /** @brief Color used for the confirmed row, 0xRRGGBB. */
   uint32_t colorConfirmed = 0x0000FF;  // blue
 
+  /** @brief Color used for inactive LEDs in a row, 0xRRGGBB. */
+  uint32_t colorInactive = 0x202020;   // dim gray
+
   /** @brief LED brightness (0..255). */
   uint8_t brightness = 64;
   ///@}
@@ -61,7 +64,7 @@ struct AppConfig {
   /** @name Runtime counters/state */
   ///@{
   /** @brief Total carriage sensor pulses since boot (or persisted if desired). */
-  uint32_t totalPulses = 0;
+  uint32_t totalPulses = 1;
 
   /** @brief True when warning blink state is active. */
   bool warnBlinkActive = false;
