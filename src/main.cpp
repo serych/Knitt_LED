@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief KnittLED application entry point.
  *
- * Initializes hardware (OLED, NeoPixels, buttons), Wi-Fi, file system, and web UI.
+ * Initializes hardware (OLED, NeoPixels, buttons), Wi-Fi, file system, OTA, and web UI.
  * Implements knitting logic: stepping rows, confirmation, carriage sensor handling, and warning blink.
  * Row stepping wraps around and respects row counting direction (rowFromBottom).
  */
@@ -183,6 +183,9 @@ static void refreshOutputs() {
   leds.showRow(pattern, cfg.activeRow, rowConfirmed[cfg.activeRow], cfg);
 }
 
+/**
+ * @brief Initialize ArduinoOTA for firmware updates over Wi-Fi.
+ */
 static void startOta() {
   ArduinoOTA.setHostname("KnittLED");
   ArduinoOTA.onStart([]() {
