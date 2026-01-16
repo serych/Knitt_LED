@@ -508,7 +508,7 @@ input,select{width:100%;padding:10px;border-radius:12px;border:1px solid #ccc}
     <label>Confirmed color</label>
     <input id="cfgConfirmed" type="color" value="#0000ff"/>
 
-    <label>Brightness (0..255)</label>
+    <label>Brightness (0..255) <span class="small" id="cfgBrightVal">64</span></label>
     <input id="cfgBright" type="range" min="0" max="255" value="64"/>
 
     <div class="controls" style="margin-top:10px">
@@ -777,10 +777,14 @@ document.getElementById("btnConfig").onclick=async()=>{
   document.getElementById("cfgActive").value=intToHexColor(cfg.colorActive);
   document.getElementById("cfgConfirmed").value=intToHexColor(cfg.colorConfirmed);
   document.getElementById("cfgBright").value=cfg.brightness;
+  document.getElementById("cfgBrightVal").textContent=cfg.brightness;
   document.getElementById("cfgAA").checked=!!cfg.autoAdvance;
   document.getElementById("cfgBW").checked=!!cfg.blinkWarning;
   document.getElementById("cfgRB").checked=!!cfg.rowFromBottom;
   document.getElementById("cfg").style.display="block";
+};
+document.getElementById("cfgBright").oninput=(e)=>{
+  document.getElementById("cfgBrightVal").textContent=e.target.value;
 };
 document.getElementById("cfgClose").onclick=()=>{document.getElementById("cfg").style.display="none";};
 document.getElementById("cfgSave").onclick=async()=>{

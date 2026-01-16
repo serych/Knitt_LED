@@ -41,7 +41,8 @@ static constexpr int PIN_BTN_CONFIRM     = 13; // touch
 static constexpr int PIN_SENSOR_CARRIAGE = 26;
 
 static constexpr int PIN_NEOPIXEL = 2;
-static constexpr int LED_COUNT    = 12;
+static constexpr int LED_COUNT    = 13;
+#define STATUS_LED_BRIGHTNESS 5
 
 static constexpr neoPixelType LED_TYPE = NEO_GRB + NEO_KHZ800;
 
@@ -251,6 +252,9 @@ void setup() {
 
   // LEDs
   leds.begin(cfg.brightness);
+  leds.setStatusColor(leds.dimColor(leds.color(255, 255, 0), STATUS_LED_BRIGHTNESS)); // yellow to confirm LED power on
+  delay(150);
+  leds.setStatusColor(leds.dimColor(leds.color(255, 0, 0), STATUS_LED_BRIGHTNESS)); // red until WiFi status is known
 
   // Buttons
   btnUp.begin(PIN_BTN_UP, true);
@@ -263,6 +267,7 @@ void setup() {
     String ip = WiFi.localIP().toString();
     Serial.printf("WiFi connected, IP: %s\n", ip.c_str());
     oled.showIp(ip);
+    leds.setStatusColor(leds.dimColor(leds.color(0, 255, 0), STATUS_LED_BRIGHTNESS)); // green when connected
     startMainServer();
     delay(350);
     refreshOutputs();
@@ -272,6 +277,7 @@ void setup() {
   // ---- Fallback provisioning portal ----
   portalActive = true;
   oled.showIp("AP: KnittLED");
+  leds.setStatusColor(leds.dimColor(leds.color(255, 120, 0), STATUS_LED_BRIGHTNESS)); // orange in portal mode
 
   wifiStartPortal(
     server,
@@ -287,6 +293,7 @@ void setup() {
       String ipStr = ip.toString();
       Serial.printf("WiFi connected (portal), IP: %s\n", ipStr.c_str());
       oled.showIp(ipStr);
+      leds.setStatusColor(leds.dimColor(leds.color(0, 255, 0), STATUS_LED_BRIGHTNESS)); // green when connected
 
       wifiStopPortal(dns);
       server.stop();
