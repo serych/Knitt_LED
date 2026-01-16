@@ -2,8 +2,8 @@
  * @file LedView.h
  * @brief NeoPixel row renderer for the current knitting row.
  *
- * Maps pattern columns to LEDs so that LED0 is the rightmost needle (#1).
- * Only pixels set to 1 are illuminated.
+ * LED0 is reserved for status; pattern columns map to LEDs 1..N.
+ * Inactive pixels are rendered using a configurable dim color.
  */
 
 #pragma once
@@ -52,8 +52,8 @@ public:
     _strip.show();
   }
 
-  // LED0 is RIGHTMOST = needle #1.
-  // Internal col 0 is LEFT, so mapping: col->led = (w-1-col)
+  // LED1 is RIGHTMOST = needle #1.
+  // Internal col 0 is LEFT, so mapping: col->led = 1 + (w-1-col)
   void showRow(const Pattern& p, int row, bool confirmed, const AppConfig& cfg) {
     _strip.clear();
 

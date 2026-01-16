@@ -11,9 +11,9 @@
 // - Main web page (edit + knit) with canvas grid
 // - Row/column numbers (needles under grid, rows on right)
 // - File management in LittleFS (/patterns/*.json): list/load/save/delete/upload/download
-// - Config modal: active/confirmed colors, brightness, auto-advance, blink warning, row counting direction
+// - Config modal: active/confirmed/inactive colors, brightness, auto-advance, blink warning, row counting direction
 // - API endpoints: /api/files, /api/pattern (GET/POST), /api/delete, /api/row, /api/confirm,
-//                  /api/state, /api/config (GET/POST), /download, /upload
+//                  /api/state, /api/config (GET/POST), /api/reset, /download, /upload
 //
 // Notes:
 // - Filenames are normalized so that "diamond.json" becomes "/patterns/diamond.json"

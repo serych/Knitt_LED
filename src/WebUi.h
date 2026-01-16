@@ -6,7 +6,7 @@
  * - Pattern editor (grid)
  * - Knitting mode (active row highlight, confirm/step)
  * - File management (LittleFS, no SD card)
- * - Device configuration (colors, brightness, behavior, row direction)
+ * - Device configuration (colors incl. inactive, brightness, behavior, row direction)
  *
  * Pattern files are stored under @c /patterns in LittleFS as JSON.
  */
@@ -47,6 +47,7 @@ struct WebUiDeps {
  * - GET  @c /api/state        : Current state for polling
  * - GET  @c /api/config       : Read config
  * - POST @c /api/config       : Update config
+ * - POST @c /api/reset        : Reset row/total state
  * - GET  @c /download         : Download a pattern file
  * - POST @c /upload           : Upload a pattern file
  */

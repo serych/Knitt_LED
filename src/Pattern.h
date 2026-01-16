@@ -28,7 +28,7 @@ struct Pattern {
 /** @brief Serialize pattern to JSON string. */
 String patternToJson(const Pattern& p);
 /**
- *  * @brief Parse pattern JSON into @p out.
- *  * @return true on success, false if JSON is invalid or out of bounds.
- *  */
+ * @brief Parse pattern JSON into @p out.
+ * @return true on success, false if JSON is invalid or out of bounds.
+ */
 bool jsonToPattern(const String& json, Pattern& out);

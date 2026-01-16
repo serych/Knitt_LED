@@ -13,8 +13,8 @@
 /**
  * @brief Application configuration and runtime state.
  *
- * Most fields are persisted using Preferences (see AppConfig.cpp).
- * Some fields (like counters) are runtime-only unless you decide to persist them.
+ * Most fields are persisted using Preferences (see AppConfig.cpp), including
+ * the total pulse counter and last active row.
  */
 struct AppConfig {
   /** @name LED rendering settings */

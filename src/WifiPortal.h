@@ -20,8 +20,12 @@ struct WifiCreds {
   String pass;
 };
 
+/** @brief Connect to a Wi-Fi network in STA mode. */
 bool wifiConnectSTA(const WifiCreds& c, uint32_t timeoutMs);
 
+/**
+ * @brief Start the captive portal for provisioning and call back on save/connect.
+ */
 void wifiStartPortal(
   WebServer& server,
   DNSServer& dns,
@@ -31,7 +35,8 @@ void wifiStartPortal(
   std::function<void(const IPAddress&)> onConnected
 );
 
-// Call regularly from loop() while the portal is active.
+/** @brief Call regularly from loop() while the portal is active. */
 void wifiPortalLoop();
 
+/** @brief Stop the captive portal and AP. */
 void wifiStopPortal(DNSServer& dns);

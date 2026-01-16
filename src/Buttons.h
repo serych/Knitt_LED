@@ -19,7 +19,7 @@ public:
   explicit EdgeButton(uint32_t debounceMs = 60) : _debounceMs(debounceMs) {}
 
   /** @brief Initialize the button GPIO. */
-    void begin(int pin, bool pullup = true) {
+  void begin(int pin, bool pullup = true) {
     _pin = pin;
     pinMode(_pin, pullup ? INPUT_PULLUP : INPUT);
     _lastStable = digitalRead(_pin);
@@ -27,12 +27,11 @@ public:
     _lastChangeMs = millis();
   }
 
-  // true on pressed edge (HIGH->LOW when using pull-up)
   /**
-   *    * @brief Check for a debounced press event.
-   *    * @return true exactly once per physical press (HIGH->LOW with pull-up).
-   *    */
-    bool pressed() {
+   * @brief Check for a debounced press event.
+   * @return true exactly once per physical press (HIGH->LOW with pull-up).
+   */
+  bool pressed() {
     bool r = digitalRead(_pin);
     uint32_t now = millis();
 
