@@ -15,6 +15,7 @@
 #include <LittleFS.h>
 #include <esp_err.h>
 #include <nvs_flash.h>
+#include <ArduinoOTA.h>
 #include <Wire.h>
 #include <U8g2lib.h>
 
@@ -182,6 +183,20 @@ static void refreshOutputs() {
   leds.showRow(pattern, cfg.activeRow, rowConfirmed[cfg.activeRow], cfg);
 }
 
+static void startOta() {
+  ArduinoOTA.setHostname("KnittLED");
+  ArduinoOTA.onStart([]() {
+    Serial.println("OTA start");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("OTA done");
+  });
+  ArduinoOTA.onError([](ota_error_t err) {
+    Serial.printf("OTA error: %u\n", (unsigned)err);
+  });
+  ArduinoOTA.begin();
+}
+
 // ============================================================
 // ------------------- KNITTING ACTIONS ------------------------
 // ============================================================
@@ -271,6 +286,7 @@ void setup() {
     Serial.printf("WiFi connected, IP: %s\n", ip.c_str());
     oled.showIp(ip);
     leds.setStatusColor(leds.dimColor(leds.color(0, 255, 0), STATUS_LED_BRIGHTNESS)); // green when connected
+    startOta();
     startMainServer();
     delay(350);
     refreshOutputs();
@@ -322,6 +338,7 @@ void loop() {
 
   // Hardware controls active only when connected
   if (WiFi.status() == WL_CONNECTED) {
+    ArduinoOTA.handle();
     if (btnUp.pressed()) {
       stepRow(+1);
       refreshOutputs();
