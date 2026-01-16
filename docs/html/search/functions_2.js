@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jsontopattern_0',['jsonToPattern',['../de/db6/_pattern_8cpp.html#abecc86278c2907b563bb9106980786f4',1,'jsonToPattern(const String &amp;json, Pattern &amp;out):&#160;Pattern.cpp'],['../d9/dbb/_pattern_8h.html#a2a1463631b07aaf76c1871e5e5f1302c',1,'jsonToPattern(const String &amp;json, Pattern &amp;out):&#160;Pattern.cpp']]]
+  ['dimcolor_0',['dimColor',['../d6/d18/class_led_view.html#a751abee2e10a75a8f8be9c2c89965a85',1,'LedView']]]
 ];

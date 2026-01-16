@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['edgebutton_0',['EdgeButton',['../d0/dd9/class_edge_button.html#ae2cd38648566ca82a52785c653a5a61d',1,'EdgeButton']]]
+  ['color_0',['color',['../d6/d18/class_led_view.html#ac30380c34ae45567a4f6c3c73b227705',1,'LedView']]]
 ];

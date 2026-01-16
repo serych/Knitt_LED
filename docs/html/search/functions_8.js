@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['webuibegin_0',['webuiBegin',['../d3/db4/_web_ui_8cpp.html#acf4a4f866256c227b8c5f99446faed6c',1,'webuiBegin(WebUiDeps deps):&#160;WebUi.cpp'],['../d0/d52/_web_ui_8h.html#acf4a4f866256c227b8c5f99446faed6c',1,'webuiBegin(WebUiDeps deps):&#160;WebUi.cpp']]],
-  ['wificonnectsta_1',['wifiConnectSTA',['../d2/db8/_wifi_portal_8cpp.html#a3b402b0b4899a2ee0065995d5129a840',1,'wifiConnectSTA(const WifiCreds &amp;c, uint32_t timeoutMs):&#160;WifiPortal.cpp'],['../dd/d34/_wifi_portal_8h.html#a3b402b0b4899a2ee0065995d5129a840',1,'wifiConnectSTA(const WifiCreds &amp;c, uint32_t timeoutMs):&#160;WifiPortal.cpp']]],
-  ['wifistartportal_2',['wifiStartPortal',['../d2/db8/_wifi_portal_8cpp.html#a9e2a76f08a7125600f384876ebd7244e',1,'wifiStartPortal(WebServer &amp;server, DNSServer &amp;dns, const char *apSsid, WifiCreds &amp;creds, std::function&lt; void(const WifiCreds &amp;)&gt; onCredsSaved, std::function&lt; void(const IPAddress &amp;)&gt; onConnected):&#160;WifiPortal.cpp'],['../dd/d34/_wifi_portal_8h.html#a9e2a76f08a7125600f384876ebd7244e',1,'wifiStartPortal(WebServer &amp;server, DNSServer &amp;dns, const char *apSsid, WifiCreds &amp;creds, std::function&lt; void(const WifiCreds &amp;)&gt; onCredsSaved, std::function&lt; void(const IPAddress &amp;)&gt; onConnected):&#160;WifiPortal.cpp']]],
-  ['wifistopportal_3',['wifiStopPortal',['../d2/db8/_wifi_portal_8cpp.html#ae0ad348b6d1ce4db070af7fa54bdef81',1,'wifiStopPortal(DNSServer &amp;dns):&#160;WifiPortal.cpp'],['../dd/d34/_wifi_portal_8h.html#ae0ad348b6d1ce4db070af7fa54bdef81',1,'wifiStopPortal(DNSServer &amp;dns):&#160;WifiPortal.cpp']]]
+  ['saveconfig_0',['saveConfig',['../d0/d08/_app_config_8cpp.html#a9358b8ed2042cddd9cedbb59d5cbafdd',1,'saveConfig(const AppConfig &amp;cfg):&#160;AppConfig.cpp'],['../df/d0a/main_8cpp.html#a9358b8ed2042cddd9cedbb59d5cbafdd',1,'saveConfig(const AppConfig &amp;cfg):&#160;AppConfig.cpp'],['../d3/db4/_web_ui_8cpp.html#a9358b8ed2042cddd9cedbb59d5cbafdd',1,'saveConfig(const AppConfig &amp;cfg):&#160;AppConfig.cpp']]],
+  ['savepatternfile_1',['savePatternFile',['../d3/db4/_web_ui_8cpp.html#afda58792d07b9312d7cf0973aa48cf90',1,'savePatternFile(const String &amp;pathIn, const Pattern &amp;p):&#160;WebUi.cpp'],['../d0/d52/_web_ui_8h.html#ac6418737eb1008213b0ed5749dde8893',1,'savePatternFile(const String &amp;path, const Pattern &amp;p):&#160;WebUi.cpp']]],
+  ['server_2',['server',['../df/d0a/main_8cpp.html#a48f3f185be3ea2d153c347a157b38d42',1,'main.cpp']]],
+  ['setbrightness_3',['setBrightness',['../d6/d18/class_led_view.html#abda637fad64af6be5b01e6153731bc9e',1,'LedView']]],
+  ['setstatuscolor_4',['setStatusColor',['../d6/d18/class_led_view.html#a5de90c765e086b52cc95da7e652cad11',1,'LedView']]],
+  ['setup_5',['setup',['../df/d0a/main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d',1,'main.cpp']]],
+  ['showip_6',['showIp',['../d8/daa/class_oled_view.html#a999c6f2b5dee432d8e8aae021cbda93d',1,'OledView']]],
+  ['showknitstatus_7',['showKnitStatus',['../d8/daa/class_oled_view.html#a83b0a064bc199f53545e0b90f65d4dad',1,'OledView']]],
+  ['showrow_8',['showRow',['../d6/d18/class_led_view.html#aaee6b5c9c6fc2fb33f5c7c3c61b21b55',1,'LedView']]]
 ];
